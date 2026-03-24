@@ -35,11 +35,16 @@
                     },
                     animation: {
                         'marquee': 'marquee 25s linear infinite',
+                        'bounce-subtle': 'bounce-subtle 2s infinite',
                     },
                     keyframes: {
                         marquee: {
                             '0%': { transform: 'translateX(0%)' },
                             '100%': { transform: 'translateX(-100%)' },
+                        },
+                        'bounce-subtle': {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-5px)' },
                         }
                     }
                 }
@@ -133,6 +138,19 @@
         #modal-dokumentasi {
             background-color: rgba(0, 0, 0, 0.8) !important;
             backdrop-filter: blur(16px) !important;
+        }
+
+        /* AI Chat Specific Styles */
+        .ai-chat-window {
+            transform: translateY(20px) scale(0.95);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+            opacity: 0;
+        }
+        .ai-chat-window.active {
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+            opacity: 1;
         }
     </style>
 </head>
@@ -332,44 +350,8 @@
                     Let's Talk <i class="ph-fill ph-whatsapp-logo text-lg"></i>
                 </a>
                 <!-- Link Download CV Updated -->
-                    <a href="#" onclick="downloadCV()" class="text-sm font-semibold flex items-center gap-2 border-b-2 border-black pb-1 hover:text-gray-600 hover:border-gray-600 transition-colors">
-                    Download CV <i class="ph ph-arrow-down font-bold"></i>
-                    </a>
-
-                        <script>
-                        function downloadCV() {
-                            fetch('https://raw.githubusercontent.com/daffahub123/my-cv/main/CV_Aulia_Nurkamilah.pdf')
-                            .then(res => res.blob())
-                            .then(blob => {
-                                const url = window.URL.createObjectURL(blob);
-                                const a = document.createElement('a');
-                                a.href = url;
-                                a.download = 'CV_Aulia_Nurkamilah.pdf';
-                                document.body.appendChild(a);
-                                a.click();
-                                a.remove();
-                                window.URL.revokeObjectURL(url);
-                            });
-                        }
-                        </script>
-                    </a>
-                    
-                    <script>
-                    function downloadCV() {
-                        fetch('https://raw.githubusercontent.com/daffahub123/my-cv/main/CV_Aulia_Nurkamilah.pdf')
-                        .then(res => res.blob())
-                        .then(blob => {
-                            const url = window.URL.createObjectURL(blob);
-                            const a = document.createElement('a');
-                            a.href = url;
-                            a.download = 'CV_Aulia_Nurkamilah.pdf';
-                            document.body.appendChild(a);
-                            a.click();
-                            a.remove();
-                            window.URL.revokeObjectURL(url);
-                        });
-                    }
-                    </script>
+                <a href="#" onclick="downloadCV()" class="text-sm font-semibold flex items-center gap-2 border-b-2 border-black pb-1 hover:text-gray-600 hover:border-gray-600 transition-colors">
+                Download CV <i class="ph ph-arrow-down font-bold"></i>
                 </a>
             </div>
         </div>
@@ -437,7 +419,7 @@
                 <i class="ph-fill ph-instagram-logo text-sm"></i> INSTAGRAM
             </a>
         </div>
-       <a href="mailto:aulianurkamilah080507@gmail.com" onclick="window.open('https://mail.google.com/mail/?view=cm&fs=1&to=aulianurkamilah080507@gmail.com','_blank')" class="hover:text-black transition-colors flex items-center gap-2">
+       <a href="mailto:aulianurkamilah080507@gmail.com" target="_blank" class="hover:text-black transition-colors flex items-center gap-2">
             <i class="ph-fill ph-envelope-simple text-sm"></i> aulianurkamilah080507@gmail.com
         </a>
     </div>
@@ -602,7 +584,115 @@
     <!-- AKHIR BAGIAN PENGALAMAN -->
     <!-- ======================= -->
 
-    <!-- Modal Controllers & Scroll Animations -->
+    <!-- ======================= -->
+    <!-- SECTION PENUTUP (CLOSING) -->
+    <!-- ======================= -->
+    <section class="w-full max-w-7xl mx-auto px-6 py-24 border-t border-gray-100 bg-gray-50/50">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div class="reveal-up">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-6 h-[1px] bg-black"></div>
+                    <span class="text-xs font-bold tracking-widest uppercase text-gray-500">Let's Connect</span>
+                </div>
+                <h2 class="text-5xl md:text-7xl font-bold leading-tight mb-8">Mulai <span class="text-gray-300 italic">Sesuatu</span> Bersama.</h2>
+                
+                <div class="space-y-6">
+                    <p class="text-lg text-gray-500 italic max-w-md">
+                        "Fisika mengajarkan kita bahwa energi tidak bisa dimusnahkan, hanya bisa diubah bentuknya. Begitu juga dengan ide; mari ubah ide kita menjadi inovasi nyata."
+                    </p>
+                    
+                    <div class="flex flex-col gap-4 pt-4">
+                        <a href="mailto:aulianurkamilah080507@gmail.com" class="text-xl md:text-2xl font-bold hover:text-gray-500 transition-colors flex items-center gap-4">
+                            aulianurkamilah080507@gmail.com
+                            <i class="ph ph-arrow-right text-gray-300"></i>
+                        </a>
+                        <a href="https://wa.me/6283891031318" target="_blank" class="text-xl md:text-2xl font-bold hover:text-gray-500 transition-colors flex items-center gap-4">
+                            +62 838 9103 1318
+                            <i class="ph ph-arrow-right text-gray-300"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="relative reveal-up" style="transition-delay: 200ms;">
+                <div class="bg-black text-white p-12 rounded-[2rem] aspect-square flex flex-col justify-between shadow-2xl overflow-hidden group">
+                    <!-- Background Decoration -->
+                    <div class="absolute -top-20 -right-20 w-64 h-64 bg-white/5 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
+                    
+                    <div class="z-10">
+                        <h4 class="text-sm font-bold tracking-[0.3em] uppercase opacity-50 mb-4 text-gray-400">Quick Message</h4>
+                        <p class="text-2xl font-medium leading-relaxed">
+                            Punya pertanyaan tentang proyek fisika, kolaborasi data, atau sekadar ingin menyapa? Pintu saya selalu terbuka.
+                        </p>
+                    </div>
+                    
+                    <div class="z-10 flex justify-between items-end">
+                        <div class="space-y-2">
+                            <span class="block text-xs font-bold text-gray-400 uppercase tracking-widest">Available for</span>
+                            <span class="text-sm border border-white/20 px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm">Remote Work & Research</span>
+                        </div>
+                        <i class="ph ph-chats-circle text-6xl opacity-20"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer class="mt-24 pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold tracking-widest uppercase text-gray-400">
+            <p>© 2024 AULIA NURKAMILAH. ALL RIGHTS RESERVED.</p>
+            <div class="flex gap-8">
+                <a href="#" class="hover:text-black transition-colors">PRIVACY POLICY</a>
+                <a href="#" class="hover:text-black transition-colors">TERMS OF SERVICE</a>
+                <a href="#" class="hover:text-black transition-colors underline decoration-black/20 decoration-2 underline-offset-4">BACK TO TOP</a>
+            </div>
+        </footer>
+    </section>
+
+    <!-- ======================= -->
+    <!-- AI CHAT BUBBLE & WINDOW -->
+    <!-- ======================= -->
+    <div class="fixed bottom-6 right-6 z-[200]">
+        <!-- Chat Window -->
+        <div id="ai-chat-window" class="ai-chat-window absolute bottom-20 right-0 w-[90vw] md:w-[400px] h-[500px] rounded-3xl overflow-hidden flex flex-col glass-card shadow-2xl border border-white/40">
+            <!-- Header -->
+            <div class="p-6 bg-black text-white flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-500 to-blue-400 flex items-center justify-center animate-pulse">
+                        <i class="ph ph-sparkle text-sm"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold">Aulia's AI Assistant</h4>
+                        <span class="text-[10px] opacity-60">Powered by Gemini</span>
+                    </div>
+                </div>
+                <button onclick="toggleAIChat()" class="hover:rotate-90 transition-transform">
+                    <i class="ph ph-x text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- Messages Area -->
+            <div id="chat-messages" class="flex-1 overflow-y-auto p-6 space-y-4 text-sm bg-white/30 hide-scrollbar">
+                <div class="bg-black/5 p-4 rounded-2xl rounded-tl-none border border-black/5 max-w-[85%]">
+                    Halo! Saya asisten AI Aulia. Ada yang bisa saya bantu seputar portofolio atau bidang fisika?
+                </div>
+            </div>
+            
+            <!-- Input Area -->
+            <div class="p-4 bg-white/50 border-t border-black/5 flex gap-2">
+                <input type="text" id="ai-input" placeholder="Tanyakan sesuatu..." class="flex-1 bg-white/80 border border-black/10 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black/5 transition-all">
+                <button onclick="sendMessage()" id="send-btn" class="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center hover:scale-110 active:scale-95 transition-all">
+                    <i class="ph ph-paper-plane-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Toggle Button -->
+        <button onclick="toggleAIChat()" id="ai-toggle-btn" class="w-14 h-14 bg-black text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 active:scale-90 transition-all group overflow-hidden relative">
+            <div class="absolute inset-0 bg-gradient-to-tr from-purple-600/20 to-blue-400/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <i class="ph ph-robot text-2xl animate-bounce-subtle"></i>
+        </button>
+    </div>
+
+    <!-- Scripts -->
     <script>
         function openModal(id) {
             const modal = document.getElementById(id);
@@ -629,7 +719,7 @@
             }
         }
 
-        // Script Baru: Observer untuk animasi Scroll di section Pengalaman
+        // Observer for Scroll Animations
         document.addEventListener('DOMContentLoaded', () => {
             const reveals = document.querySelectorAll('.reveal-up');
             
@@ -650,6 +740,108 @@
             reveals.forEach(reveal => {
                 revealOnScroll.observe(reveal);
             });
+        });
+
+        function downloadCV() {
+            fetch('https://raw.githubusercontent.com/daffahub123/my-cv/main/CV_Aulia_Nurkamilah.pdf')
+            .then(res => res.blob())
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'CV_Aulia_Nurkamilah.pdf';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+            });
+        }
+
+        // ======================= 
+        // AI CHAT LOGIC (Gemini)
+        // ======================= 
+        let isChatOpen = false;
+        const apiKey = ""; // API Key provided by environment
+        const systemPrompt = "Kamu adalah asisten AI untuk portofolio Aulia Nurkamilah. Aulia adalah mahasiswa Fisika UIN Syarif Hidayatullah Jakarta. Dia ahli di bidang analisis data fisika, eksperimen lab, dan simulasi komputasi. Jawablah dengan sopan, cerdas, dan profesional. Jika ditanya kontak, emailnya adalah aulianurkamilah080507@gmail.com dan nomor WhatsAppnya +6283891031318.";
+
+        function toggleAIChat() {
+            isChatOpen = !isChatOpen;
+            const windowEl = document.getElementById('ai-chat-window');
+            if (isChatOpen) {
+                windowEl.classList.add('active');
+            } else {
+                windowEl.classList.remove('active');
+            }
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('ai-input');
+            const container = document.getElementById('chat-messages');
+            const text = input.value.trim();
+            
+            if (!text) return;
+
+            // User Message
+            addMessage(text, 'user');
+            input.value = '';
+
+            // Loading state
+            const loadingId = 'loading-' + Date.now();
+            const loadingMsg = document.createElement('div');
+            loadingMsg.id = loadingId;
+            loadingMsg.className = 'bg-black/5 p-4 rounded-2xl rounded-tl-none border border-black/5 max-w-[85%] italic text-gray-400';
+            loadingMsg.innerText = 'Mengetik...';
+            container.appendChild(loadingMsg);
+            container.scrollTop = container.scrollHeight;
+
+            try {
+                const response = await fetchWithRetry(text);
+                loadingMsg.remove();
+                addMessage(response, 'ai');
+            } catch (error) {
+                loadingMsg.innerText = "Maaf, sedang ada kendala koneksi. Coba lagi nanti ya.";
+            }
+        }
+
+        async function fetchWithRetry(query, retries = 5) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const payload = {
+                contents: [{ parts: [{ text: query }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] }
+            };
+
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const res = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const data = await res.json();
+                    return data.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, saya tidak bisa memproses permintaan Anda.";
+                } catch (e) {
+                    if (i === retries - 1) throw e;
+                    const delay = Math.pow(2, i) * 1000;
+                    await new Promise(r => setTimeout(r, delay));
+                }
+            }
+        }
+
+        function addMessage(text, sender) {
+            const container = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            if (sender === 'user') {
+                div.className = 'bg-black text-white p-4 rounded-2xl rounded-tr-none ml-auto max-w-[85%] shadow-lg';
+            } else {
+                div.className = 'bg-white p-4 rounded-2xl rounded-tl-none border border-black/5 max-w-[85%] shadow-sm';
+            }
+            div.innerText = text;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        document.getElementById('ai-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
         });
     </script>
 
