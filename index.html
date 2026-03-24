@@ -56,6 +56,7 @@
             font-family: 'Outfit', sans-serif;
             color: #111111;
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
         
         .blob-bg {
@@ -106,7 +107,6 @@
             opacity: 0;
         }
 
-        /* Khusus My Project: Latar belakang putih transparan 50% */
         #modal-projects .glass-card {
             background: rgba(255, 255, 255, 0.5) !important;
         }
@@ -134,7 +134,6 @@
         .dok-img-wrapper:hover {
             transform: scale(1.03);
         }
-        /* Override default modal overlay for dokumentasi to remove white tint */
         #modal-dokumentasi {
             background-color: rgba(0, 0, 0, 0.8) !important;
             backdrop-filter: blur(16px) !important;
@@ -151,6 +150,21 @@
             transform: translateY(0) scale(1);
             pointer-events: auto;
             opacity: 1;
+        }
+
+        /* Modal Legal (Privacy & Terms) styling */
+        .legal-modal-card {
+            background: rgba(255, 255, 255, 0.8) !important;
+            backdrop-filter: blur(25px) !important;
+            border: 1px solid rgba(0, 0, 0, 0.05) !important;
+        }
+
+        /* Personal Image Zoom Effect */
+        .personal-image-container {
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .personal-image-container:hover {
+            transform: scale(1.1);
         }
     </style>
 </head>
@@ -241,47 +255,86 @@
         <button onclick="closeModal('modal-dokumentasi')" class="absolute top-6 right-6 z-[130] text-white/70 hover:text-white w-12 h-12 flex items-center justify-center hover:scale-110 transition-transform bg-white/10 rounded-full backdrop-blur-md border border-white/20">
             <i class="ph ph-x text-2xl font-bold"></i>
         </button>
-        
-        <!-- Container Slide Horizontal -->
         <div class="w-full overflow-x-auto hide-scrollbar flex items-center gap-6 px-8 md:px-16 py-8 snap-x snap-mandatory h-full">
-            <div class="shrink-0 w-2 md:w-8"></div> <!-- Spacer Start -->
-            
-            <!-- Foto 1 -->
+            <div class="shrink-0 w-2 md:w-8"></div>
             <div class="snap-center shrink-0 dok-img-wrapper">
                 <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=800" alt="Dokumentasi 1" class="h-[50vh] md:h-[70vh] w-auto object-cover rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.6)] border border-white/10">
             </div>
-            <!-- Foto 2 -->
             <div class="snap-center shrink-0 dok-img-wrapper">
                 <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?q=80&w=800" alt="Dokumentasi 2" class="h-[50vh] md:h-[70vh] w-auto object-cover rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.6)] border border-white/10">
             </div>
-            <!-- Foto 3 -->
             <div class="snap-center shrink-0 dok-img-wrapper">
                 <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=800" alt="Dokumentasi 3" class="h-[50vh] md:h-[70vh] w-auto object-cover rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.6)] border border-white/10">
             </div>
-            <!-- Foto 4 -->
             <div class="snap-center shrink-0 dok-img-wrapper">
                 <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=800" alt="Dokumentasi 4" class="h-[50vh] md:h-[70vh] w-auto object-cover rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.6)] border border-white/10">
             </div>
-            <!-- Foto 5 -->
             <div class="snap-center shrink-0 dok-img-wrapper">
                 <img src="https://images.unsplash.com/photo-1582719478250-c8940cebf8e2?q=80&w=800" alt="Dokumentasi 5" class="h-[50vh] md:h-[70vh] w-auto object-cover rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.6)] border border-white/10">
             </div>
-            
-            <div class="shrink-0 w-2 md:w-8"></div> <!-- Spacer End -->
+            <div class="shrink-0 w-2 md:w-8"></div>
+        </div>
+    </div>
+
+    <!-- Modal Privacy Policy -->
+    <div id="modal-privacy" class="fixed inset-0 z-[150] flex items-center justify-center p-4 modal-overlay hidden-modal">
+        <div class="glass-card legal-modal-card w-full max-w-xl rounded-[2rem] p-8 md:p-12 relative">
+            <button onclick="closeModal('modal-privacy')" class="absolute top-6 right-6 z-50 bg-black text-white w-8 h-8 rounded-full flex items-center justify-center hover:scale-110 active:scale-95 transition-transform">
+                <i class="ph ph-x text-sm"></i>
+            </button>
+            <div class="space-y-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-black flex items-center justify-center text-white">
+                        <i class="ph ph-shield-check text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold tracking-tight">Privacy Policy</h2>
+                </div>
+                <div class="h-[1px] w-full bg-black/5"></div>
+                <div class="text-sm md:text-base leading-relaxed text-gray-600 space-y-4">
+                    <p>Website ini adalah portofolio pribadi milik Aulia Nurkamilah.</p>
+                    <p>Kami tidak mengumpulkan data pribadi pengguna secara langsung. Informasi yang diberikan melalui email atau kontak hanya digunakan untuk keperluan komunikasi dan tidak akan dibagikan kepada pihak ketiga.</p>
+                    <p>Website ini dapat menggunakan layanan pihak ketiga seperti browser cookies atau analytics untuk meningkatkan pengalaman pengguna.</p>
+                    <p>Dengan menggunakan website ini, Anda menyetujui kebijakan privasi ini.</p>
+                </div>
+                <button onclick="closeModal('modal-privacy')" class="w-full py-4 bg-black text-white rounded-2xl font-bold text-xs tracking-widest uppercase hover:bg-gray-800 transition-colors active:scale-95">SAYA MENGERTI</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Terms of Service -->
+    <div id="modal-terms" class="fixed inset-0 z-[150] flex items-center justify-center p-4 modal-overlay hidden-modal">
+        <div class="glass-card legal-modal-card w-full max-w-xl rounded-[2rem] p-8 md:p-12 relative">
+            <button onclick="closeModal('modal-terms')" class="absolute top-6 right-6 z-50 bg-black text-white w-8 h-8 rounded-full flex items-center justify-center hover:scale-110 active:scale-95 transition-transform">
+                <i class="ph ph-x text-sm"></i>
+            </button>
+            <div class="space-y-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-black flex items-center justify-center text-white">
+                        <i class="ph ph-file-text text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold tracking-tight">Terms of Service</h2>
+                </div>
+                <div class="h-[1px] w-full bg-black/5"></div>
+                <div class="text-sm md:text-base leading-relaxed text-gray-600 space-y-4">
+                    <p>Dengan mengakses website ini, Anda setuju untuk menggunakan konten yang tersedia hanya untuk tujuan informasi.</p>
+                    <p>Seluruh konten dalam website ini merupakan milik Aulia Nurkamilah dan tidak boleh disalin, digunakan, atau didistribusikan tanpa izin.</p>
+                    <p>Pemilik website tidak bertanggung jawab atas kerugian atau kerusakan yang mungkin timbul dari penggunaan informasi di website ini.</p>
+                    <p>Ketentuan ini dapat diperbarui sewaktu-waktu tanpa pemberitahuan.</p>
+                </div>
+                <button onclick="closeModal('modal-terms')" class="w-full py-4 bg-black text-white rounded-2xl font-bold text-xs tracking-widest uppercase hover:bg-gray-800 transition-colors active:scale-95">SETUJU</button>
+            </div>
         </div>
     </div>
 
     <!-- Header Navigation -->
-    <header class="w-full max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+    <header id="header" class="w-full max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
         <div class="flex items-center gap-4">
             <h1 class="text-3xl font-bold tracking-tight">it's me</h1>
             <svg class="w-6 h-6 text-gray-400 -ml-2 mt-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M4 20L20 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
             </svg>
         </div>
-        
         <nav class="flex flex-wrap gap-8 lg:gap-12">
-            <!-- Nav Item 1: My Projects -->
             <div onclick="openModal('modal-projects')" class="group cursor-pointer">
                 <div class="flex items-center justify-between border-b border-black pb-1 mb-2">
                     <span class="font-semibold text-sm">My Projects</span>
@@ -289,7 +342,6 @@
                 </div>
                 <p class="text-[10px] text-gray-500 max-w-[120px] leading-tight group-hover:text-black transition-colors">Lihat semua proyek menarik yang telah saya selesaikan.</p>
             </div>
-            <!-- Nav Item 2: About Me -->
             <div onclick="openModal('modal-about')" class="group cursor-pointer">
                 <div class="flex items-center justify-between border-b border-gray-300 pb-1 mb-2 group-hover:border-black transition-colors">
                     <span class="font-semibold text-sm text-gray-600 group-hover:text-black transition-colors">About Me</span>
@@ -297,7 +349,6 @@
                 </div>
                 <p class="text-[10px] text-gray-500 max-w-[120px] leading-tight group-hover:text-black transition-colors">Pelajari lebih lanjut tentang diri saya dan apa yang saya lakukan.</p>
             </div>
-            <!-- Nav Item 3: Contact Me -->
             <a href="https://mail.google.com/mail/?view=cm&fs=1&to=aulianurkamilah080507@gmail.com" target="_blank" class="group cursor-pointer block">
                 <div class="flex items-center justify-between border-b border-gray-300 pb-1 mb-2 group-hover:border-black transition-colors">
                  <span class="font-semibold text-sm text-gray-600 group-hover:text-black transition-colors">Contact me</span>
@@ -310,69 +361,40 @@
 
     <!-- Hero Section -->
     <main class="w-full max-w-7xl mx-auto px-6 pt-12 pb-20 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-4 items-center">
-        <!-- Left Content -->
         <div class="space-y-8 z-10 relative">
             <div class="space-y-4">
                 <span class="text-3xl">👋</span>
                 <h2 class="text-5xl md:text-7xl font-bold tracking-tight text-gray-400">Hello! <br> <span class="text-black">I'm Aulia Nurkamilah</span></h2>
-                
                 <div class="flex items-center gap-4 py-2">
                     <div class="h-[1px] w-12 bg-gray-400"></div>
                     <h3 class="text-xl md:text-2xl font-medium text-gray-600">Mahasiswa Fisika <i class="ph-fill ph-sparkle text-black ml-1"></i></h3>
                 </div>
-                
                 <p class="text-sm text-gray-500 leading-relaxed max-w-md mt-4">
                     Hello! saya Aulia Nurkamilah. dan saya <span class="font-semibold text-black">Mahasiswa UIN Syarif Hidayatullah Jakarta, Jurusan Fisika</span>, yang tertarik pada penelitian, analisis data, dan pengembangan teknologi berbasis sains. Saya senang memecahkan masalah dan memahami fenomena alam secara mendalam.
                 </p>
             </div>
-
             <ul class="space-y-3 text-sm font-medium text-gray-700">
-                <li class="flex items-center gap-3">
-                    <i class="ph ph-check text-black font-bold"></i> Berpikir analisis dan logis
-                </li>
-                <li class="flex items-center gap-3">
-                    <i class="ph ph-check text-black font-bold"></i> Terbiasa dengan eksperiman dan penelitian
-                </li>
-                <li class="flex items-center gap-3">
-                    <i class="ph ph-check text-black font-bold"></i> Mampu mengolah dan menganalisis data
-                </li>
-                <li class="flex items-center gap-3">
-                    <i class="ph ph-check text-black font-bold"></i> Memahami dasar Matematika dan Fisika
-                </li>
-                <li class="flex items-center gap-3">
-                    <i class="ph ph-check text-black font-bold"></i> Tertarik pada teknologi dan inovasi
-                </li>
+                <li class="flex items-center gap-3"><i class="ph ph-check text-black font-bold"></i> Berpikir analisis dan logis</li>
+                <li class="flex items-center gap-3"><i class="ph ph-check text-black font-bold"></i> Terbiasa dengan eksperiman dan penelitian</li>
+                <li class="flex items-center gap-3"><i class="ph ph-check text-black font-bold"></i> Mampu mengolah dan menganalisis data</li>
+                <li class="flex items-center gap-3"><i class="ph ph-check text-black font-bold"></i> Memahami dasar Matematika dan Fisika</li>
+                <li class="flex items-center gap-3"><i class="ph ph-check text-black font-bold"></i> Tertarik pada teknologi dan inovasi</li>
             </ul>
-
             <div class="flex items-center gap-8 pt-4">
-                <!-- WhatsApp Link updated -->
-                <a href="https://wa.me/6283891031318" target="_blank" class="bg-black text-white px-8 py-3 rounded-full text-sm font-medium hover:bg-gray-800 transition-colors inline-flex items-center gap-2">
-                    Let's Talk <i class="ph-fill ph-whatsapp-logo text-lg"></i>
-                </a>
-                <!-- Link Download CV Updated -->
-                <a href="#" onclick="downloadCV()" class="text-sm font-semibold flex items-center gap-2 border-b-2 border-black pb-1 hover:text-gray-600 hover:border-gray-600 transition-colors">
-                Download CV <i class="ph ph-arrow-down font-bold"></i>
-                </a>
+                <a href="https://wa.me/6283891031318" target="_blank" class="bg-black text-white px-8 py-3 rounded-full text-sm font-medium hover:bg-gray-800 transition-colors inline-flex items-center gap-2">Let's Talk <i class="ph-fill ph-whatsapp-logo text-lg"></i></a>
+                <a href="#" onclick="downloadCV()" class="text-sm font-semibold flex items-center gap-2 border-b-2 border-black pb-1 hover:text-gray-600 hover:border-gray-600 transition-colors">Download CV <i class="ph ph-arrow-down font-bold"></i></a>
             </div>
         </div>
-
-        <!-- Right Image/Visuals -->
         <div class="relative w-full h-[500px] md:h-[600px] flex justify-center items-end mt-12 lg:mt-0">
-            <!-- Colorful Blob Background -->
             <div class="absolute top-10 right-10 w-[300px] h-[300px] md:w-[450px] md:h-[450px] rounded-full blob-bg z-0"></div>
-            
-            <!-- Abstract Elements -->
             <svg class="absolute top-1/4 left-0 md:-left-12 w-8 h-8 text-black opacity-60 z-20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20" stroke-linecap="round"/></svg>
             <svg class="absolute bottom-1/4 right-0 md:-right-12 w-12 h-12 text-black opacity-80 z-20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h2m4-4l-2 2m4-4v2m4-2l-2 2m4 4h-2m-2 4l2-2m-4 4v-2m-4 2l2-2m-4-4H7m2-4L7 9"/></svg>
             <svg class="absolute top-10 right-1/4 w-12 h-12 text-gray-800 z-20" viewBox="0 0 24 24" fill="none"><path d="M4 4l16 16m0-16L4 20" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
-
-            <!-- Floating Hello Badge -->
             <div class="absolute top-1/3 left-4 md:left-10 bg-black text-white w-20 h-20 rounded-full flex items-center justify-center -rotate-12 z-20 shadow-lg border-2 border-white">
                 <span class="font-medium">Hello</span>
             </div>
-
-            <!-- Person Image -->
-            <img src="https://res.cloudinary.com/dvpm3w0ed/image/upload/v1774385780/Desain_tanpa_judul_2_ee6xib.png" alt="Aulia Nurkamilah" class="relative z-10 w-[130%] max-w-[610px] object-cover rounded-t-full drop-shadow-2xl grayscale-[10%] sepia-[10%] contrast-125" style="mask-image: linear-gradient(to top, transparent 0%, black 20%); -webkit-mask-image: linear-gradient(to top, transparent 0%, black 20%);" />
+            <!-- Perubahan di sini: Ditambahkan class 'personal-image-container' untuk efek zoom -->
+            <img src="https://res.cloudinary.com/dvpm3w0ed/image/upload/v1774385780/Desain_tanpa_judul_2_ee6xib.png" alt="Aulia Nurkamilah" class="personal-image-container relative z-10 w-[130%] max-w-[610px] object-cover rounded-t-full drop-shadow-2xl grayscale-[10%] sepia-[10%] contrast-125 cursor-pointer" style="mask-image: linear-gradient(to top, transparent 0%, black 20%); -webkit-mask-image: linear-gradient(to top, transparent 0%, black 20%);" />
         </div>
     </main>
 
@@ -380,28 +402,10 @@
     <div class="bg-black text-white py-4 overflow-hidden relative w-full flex items-center border-y-2 border-gray-800 shadow-xl">
         <div class="marquee-container animate-marquee text-sm font-semibold tracking-widest uppercase">
             <div class="flex items-center">
-                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> IAR
-                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> FISIKA 
-                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> UNIV UIN 
-                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> HIMA 
-                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> PARAGON
-                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> IAR 
-                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> FISIKA 
-                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> UNIV UIN
-                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> HIMA 
-                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> PARAGON
+                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> IAR <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> FISIKA <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> UNIV UIN <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> HIMA <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> PARAGON <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> IAR <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> FISIKA <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> UNIV UIN <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> HIMA <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> PARAGON
             </div>
             <div class="flex items-center">
-                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> IAR 
-                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> FISIKA 
-                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> UNIV UIN 
-                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> HIMA 
-                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> PARAGON
-                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> IAR 
-                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> FISIKA 
-                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> UNIV UIN
-                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> HIMA 
-                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> PARAGON
+                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> IAR <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> FISIKA <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> UNIV UIN <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> HIMA <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> PARAGON <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> IAR <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> FISIKA <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> UNIV UIN <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> HIMA <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> PARAGON
             </div>
         </div>
     </div>
@@ -409,17 +413,11 @@
     <!-- Social Links Banner -->
     <div class="w-full max-w-7xl mx-auto px-6 py-6 border-b border-gray-200 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-semibold tracking-wider text-gray-600">
         <div class="flex items-center gap-8">
-            <a href="https://youtube.com/@sinesuny?si=5DV01aBL-rvG4Tzg" target="_blank" class="hover:text-black transition-colors flex items-center gap-2">
-                <i class="ph-fill ph-youtube-logo text-sm"></i> YOUTUBE
-            </a>
-            <a href="https://www.tiktok.com/@allowlli?is_from_webapp=1&sender_device=pc" target="_blank" class="hover:text-black transition-colors flex items-center gap-2">
-                <i class="ph-fill ph-tiktok-logo text-sm"></i> TIKTOK
-            </a>
-            <a href="https://www.instagram.com/amilah.li?igsh=bmZpYTBzeG9xdmw1" target="_blank" class="hover:text-black transition-colors flex items-center gap-2">
-                <i class="ph-fill ph-instagram-logo text-sm"></i> INSTAGRAM
-            </a>
+            <a href="https://youtube.com/@sinesuny?si=5DV01aBL-rvG4Tzg" target="_blank" class="hover:text-black transition-colors flex items-center gap-2"><i class="ph-fill ph-youtube-logo text-sm"></i> YOUTUBE</a>
+            <a href="https://www.tiktok.com/@allowlli?is_from_webapp=1&sender_device=pc" target="_blank" class="hover:text-black transition-colors flex items-center gap-2"><i class="ph-fill ph-tiktok-logo text-sm"></i> TIKTOK</a>
+            <a href="https://www.instagram.com/amilah.li?igsh=bmZpYTBzeG9xdmw1" target="_blank" class="hover:text-black transition-colors flex items-center gap-2"><i class="ph-fill ph-instagram-logo text-sm"></i> INSTAGRAM</a>
         </div>
-       <a href="mailto:aulianurkamilah080507@gmail.com" target="_blank" class="hover:text-black transition-colors flex items-center gap-2">
+       <a href="mailto:aulianurkamilah080507@gmail.com" onclick="window.open('https://mail.google.com/mail/?view=cm&fs=1&to=aulianurkamilah080507@gmail.com','_blank')" class="hover:text-black transition-colors flex items-center gap-2">
             <i class="ph-fill ph-envelope-simple text-sm"></i> aulianurkamilah080507@gmail.com
         </a>
     </div>
@@ -434,416 +432,219 @@
                 </div>
                 <h2 class="text-4xl md:text-5xl font-bold uppercase leading-tight">Bidang yang<br>Saya kuasai</h2>
             </div>
-            
             <div class="max-w-md flex flex-col md:flex-row md:items-end justify-between gap-6 w-full md:w-auto">
-                <p class="text-sm text-gray-500 leading-relaxed max-w-xs">
-                    Berikut adalah beberapa bidang yang saya pelajari dan kembangkan sebagai mahasiswa fisika.
-                </p>
-                <a href="#" class="bg-black text-white px-8 py-3 rounded-full text-xs font-bold tracking-wider hover:bg-gray-800 transition-colors whitespace-nowrap">
-                    SEMUA KEAHLIAN
-                </a>
+                <p class="text-sm text-gray-500 leading-relaxed max-w-xs">Berikut adalah beberapa bidang yang saya pelajari dan kembangkan sebagai mahasiswa fisika.</p>
+                <a href="#" class="bg-black text-white px-8 py-3 rounded-full text-xs font-bold tracking-wider hover:bg-gray-800 transition-colors whitespace-nowrap">SEMUA KEAHLIAN</a>
             </div>
         </div>
-
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
             <div class="bg-black text-white p-10 flex flex-col justify-between aspect-square group cursor-pointer border border-black hover:shadow-2xl transition-all">
                 <i class="ph ph-bezier-curve text-5xl font-light opacity-80 group-hover:scale-110 transition-transform origin-left"></i>
                 <div>
                     <h3 class="text-xl font-bold mb-6 w-2/3">Analisis<br>Data<br>Fisika</h3>
-                    <div class="flex items-center gap-2 text-xs font-semibold tracking-wider text-gray-400 group-hover:text-white transition-colors">
-                        BACA SELENGKAPNYA <i class="ph ph-arrow-right"></i>
-                    </div>
+                    <div class="flex items-center gap-2 text-xs font-semibold tracking-wider text-gray-400 group-hover:text-white transition-colors">BACA SELENGKAPNYA <i class="ph ph-arrow-right"></i></div>
                 </div>
             </div>
-
             <div class="bg-white border border-gray-200 p-10 flex flex-col justify-between aspect-square group cursor-pointer hover:border-black transition-all">
                 <i class="ph ph-paint-brush-broad text-5xl font-light text-black opacity-80 group-hover:scale-110 transition-transform origin-left"></i>
                 <div>
                     <h3 class="text-xl font-bold mb-6 w-2/3 text-black">Eksperimen<br>Praktikum</h3>
-                    <div class="flex items-center gap-2 text-xs font-semibold tracking-wider text-gray-500 group-hover:text-black transition-colors">
-                        BACA SELENGKAPNYA <i class="ph ph-arrow-right"></i>
-                    </div>
+                    <div class="flex items-center gap-2 text-xs font-semibold tracking-wider text-gray-500 group-hover:text-black transition-colors">BACA SELENGKAPNYA <i class="ph ph-arrow-right"></i></div>
                 </div>
             </div>
-
             <div class="bg-white border border-gray-200 p-10 flex flex-col justify-between aspect-square group cursor-pointer hover:border-black transition-all">
                 <i class="ph ph-strategy text-5xl font-light text-black opacity-80 group-hover:scale-110 transition-transform origin-left"></i>
                 <div>
                     <h3 class="text-xl font-bold mb-6 w-2/3 text-black">Matematika<br>Simulasi<br>Komputasi</h3>
-                    <div class="flex items-center gap-2 text-xs font-semibold tracking-wider text-gray-500 group-hover:text-black transition-colors">
-                        BACA SELENGKAPNYA <i class="ph ph-arrow-right"></i>
-                    </div>
+                    <div class="flex items-center gap-2 text-xs font-semibold tracking-wider text-gray-500 group-hover:text-black transition-colors">BACA SELENGKAPNYA <i class="ph ph-arrow-right"></i></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ======================= -->
-    <!-- BAGIAN BARU: PENGALAMAN -->
-    <!-- ======================= -->
+    <!-- Pengalaman -->
     <style>
-        /* Animasi Khusus untuk Scroll Reveal di section Pengalaman */
-        .reveal-up {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
-        }
-        .reveal-up.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .reveal-up { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal-up.active { opacity: 1; transform: translateY(0); }
     </style>
-
     <section class="w-full max-w-7xl mx-auto px-6 py-20 border-t border-gray-100">
-        <!-- Header Pengalaman -->
         <div class="flex flex-col md:flex-row justify-between items-end gap-8 mb-16 reveal-up">
             <div>
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="w-6 h-[1px] bg-black"></div>
-                    <span class="text-xs font-bold tracking-widest uppercase text-gray-500">Perjalanan & Karir</span>
-                </div>
+                <div class="flex items-center gap-3 mb-4"><div class="w-6 h-[1px] bg-black"></div><span class="text-xs font-bold tracking-widest uppercase text-gray-500">Perjalanan & Karir</span></div>
                 <h2 class="text-4xl md:text-5xl font-bold uppercase leading-tight">Pengalaman<br>Saya</h2>
             </div>
-            <div class="max-w-md">
-                <p class="text-sm text-gray-500 leading-relaxed">
-                    Dedikasi dan kontribusi saya dalam berbagai kegiatan akademik, organisasi, serta penelitian untuk terus mengembangkan diri.
-                </p>
-            </div>
+            <div class="max-w-md"><p class="text-sm text-gray-500 leading-relaxed">Dedikasi dan kontribusi saya dalam berbagai kegiatan akademik, organisasi, serta penelitian untuk terus mengembangkan diri.</p></div>
         </div>
-
         <div class="space-y-8">
-            <!-- Experience Card 1 -->
             <div class="group flex flex-col md:flex-row bg-white border border-gray-200 hover:border-black transition-all duration-500 overflow-hidden reveal-up">
                 <div class="w-full md:w-5/12 overflow-hidden bg-gray-100 aspect-video md:aspect-auto">
-                    <!-- Efek grayscale ke normal saat hover + scale up -->
                     <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?q=80&w=800" alt="Lab Fisika" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700">
                 </div>
                 <div class="w-full md:w-7/12 p-8 md:p-12 flex flex-col justify-center">
-                    <div class="flex items-center gap-4 mb-4">
-                        <span class="bg-black text-white text-[10px] font-bold tracking-widest uppercase px-3 py-1">2023 - Sekarang</span>
-                        <span class="text-xs font-bold text-gray-400">UIN Syarif Hidayatullah</span>
-                    </div>
+                    <div class="flex items-center gap-4 mb-4"><span class="bg-black text-white text-[10px] font-bold tracking-widest uppercase px-3 py-1">2023 - Sekarang</span><span class="text-xs font-bold text-gray-400">UIN Syarif Hidayatullah</span></div>
                     <h3 class="text-2xl md:text-3xl font-bold mb-4 group-hover:text-gray-700 transition-colors">Asisten Laboratorium Fisika Dasar</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed mb-8">
-                        Bertanggung jawab dalam membimbing mahasiswa baru selama kegiatan praktikum. Memastikan kelancaran eksperimen mekanika, termodinamika, dan listrik magnet, serta melakukan evaluasi terhadap laporan praktikum mingguan dengan standar yang ketat.
-                    </p>
-                    <div class="mt-auto">
-                        <button onclick="openModal('modal-dokumentasi')" class="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-black border-b-2 border-transparent group-hover:border-black transition-all pb-1 active:scale-95 active:opacity-70 cursor-pointer">
-                            LIHAT DOKUMENTASI <i class="ph ph-arrow-right"></i>
-                        </button>
-                    </div>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-8">Bertanggung jawab dalam membimbing mahasiswa baru selama kegiatan praktikum. Memastikan kelancaran eksperimen mekanika, termodinamika, dan listrik magnet, serta melakukan evaluasi terhadap laporan praktikum mingguan dengan standar yang ketat.</p>
+                    <div class="mt-auto"><button onclick="openModal('modal-dokumentasi')" class="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-black border-b-2 border-transparent group-hover:border-black transition-all pb-1 active:scale-95 active:opacity-70 cursor-pointer">LIHAT DOKUMENTASI <i class="ph ph-arrow-right"></i></button></div>
                 </div>
             </div>
-
-            <!-- Experience Card 2 (Zig-Zag) -->
             <div class="group flex flex-col md:flex-row-reverse bg-white border border-gray-200 hover:border-black transition-all duration-500 overflow-hidden reveal-up" style="transition-delay: 100ms;">
                 <div class="w-full md:w-5/12 overflow-hidden bg-gray-100 aspect-video md:aspect-auto">
                     <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=800" alt="Organisasi Mahasiswa" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700">
                 </div>
                 <div class="w-full md:w-7/12 p-8 md:p-12 flex flex-col justify-center">
-                    <div class="flex items-center gap-4 mb-4">
-                        <span class="bg-black text-white text-[10px] font-bold tracking-widest uppercase px-3 py-1">2022 - 2023</span>
-                        <span class="text-xs font-bold text-gray-400">HIMA Fisika UIN Jakarta</span>
-                    </div>
+                    <div class="flex items-center gap-4 mb-4"><span class="bg-black text-white text-[10px] font-bold tracking-widest uppercase px-3 py-1">2022 - 2023</span><span class="text-xs font-bold text-gray-400">HIMA Fisika UIN Jakarta</span></div>
                     <h3 class="text-2xl md:text-3xl font-bold mb-4 group-hover:text-gray-700 transition-colors">Staff Departemen Keilmuan</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed mb-8">
-                        Berperan aktif dalam merancang dan mengeksekusi program kerja berbasis akademik. Mengorganisir kelompok belajar mahasiswa, mengatur seminar fisika modern, dan mempersiapkan kontingen lomba sains tingkat universitas.
-                    </p>
-                    <div class="mt-auto">
-                        <button onclick="openModal('modal-dokumentasi')" class="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-black border-b-2 border-transparent group-hover:border-black transition-all pb-1 active:scale-95 active:opacity-70 cursor-pointer">
-                            LIHAT DOKUMENTASI <i class="ph ph-arrow-right"></i>
-                        </button>
-                    </div>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-8">Berperan aktif dalam merancang dan mengeksekusi program kerja berbasis akademik. Mengorganisir kelompok belajar mahasiswa, mengatur seminar fisika modern, dan mempersiapkan kontingen lomba sains tingkat universitas.</p>
+                    <div class="mt-auto"><button onclick="openModal('modal-dokumentasi')" class="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-black border-b-2 border-transparent group-hover:border-black transition-all pb-1 active:scale-95 active:opacity-70 cursor-pointer">LIHAT DOKUMENTASI <i class="ph ph-arrow-right"></i></button></div>
                 </div>
             </div>
-
-            <!-- Experience Card 3 -->
             <div class="group flex flex-col md:flex-row bg-white border border-gray-200 hover:border-black transition-all duration-500 overflow-hidden reveal-up" style="transition-delay: 200ms;">
                 <div class="w-full md:w-5/12 overflow-hidden bg-gray-100 aspect-video md:aspect-auto">
                     <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=800" alt="Penelitian Mahasiswa" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700">
                 </div>
                 <div class="w-full md:w-7/12 p-8 md:p-12 flex flex-col justify-center">
-                    <div class="flex items-center gap-4 mb-4">
-                        <span class="bg-black text-white text-[10px] font-bold tracking-widest uppercase px-3 py-1">2023</span>
-                        <span class="text-xs font-bold text-gray-400">Pusat Penelitian</span>
-                    </div>
+                    <div class="flex items-center gap-4 mb-4"><span class="bg-black text-white text-[10px] font-bold tracking-widest uppercase px-3 py-1">2023</span><span class="text-xs font-bold text-gray-400">Pusat Penelitian</span></div>
                     <h3 class="text-2xl md:text-3xl font-bold mb-4 group-hover:text-gray-700 transition-colors">Tim Asisten Peneliti (Proyek Dosen)</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed mb-8">
-                        Membantu pengumpulan dan pengolahan data untuk penelitian efisiensi material berbasis simulasi. Mengoperasikan perangkat কলিক lunak analisis komputasi dan menyusun draf awal untuk publikasi jurnal ilmiah.
-                    </p>
-                    <div class="mt-auto">
-                        <button onclick="openModal('modal-dokumentasi')" class="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-black border-b-2 border-transparent group-hover:border-black transition-all pb-1 active:scale-95 active:opacity-70 cursor-pointer">
-                            LIHAT DOKUMENTASI <i class="ph ph-arrow-right"></i>
-                        </button>
-                    </div>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-8">Membantu pengumpulan dan pengolahan data untuk penelitian efisiensi material berbasis simulasi. Mengoperasikan perangkat কলিক lunak analisis komputasi dan menyusun draf awal untuk publikasi jurnal ilmiah.</p>
+                    <div class="mt-auto"><button onclick="openModal('modal-dokumentasi')" class="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-black border-b-2 border-transparent group-hover:border-black transition-all pb-1 active:scale-95 active:opacity-70 cursor-pointer">LIHAT DOKUMENTASI <i class="ph ph-arrow-right"></i></button></div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- ======================= -->
-    <!-- AKHIR BAGIAN PENGALAMAN -->
-    <!-- ======================= -->
 
-    <!-- ======================= -->
-    <!-- SECTION PENUTUP (CLOSING) -->
-    <!-- ======================= -->
+    <!-- Section Penutup -->
     <section class="w-full max-w-7xl mx-auto px-6 py-24 border-t border-gray-100 bg-gray-50/50">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div class="reveal-up">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="w-6 h-[1px] bg-black"></div>
-                    <span class="text-xs font-bold tracking-widest uppercase text-gray-500">Let's Connect</span>
-                </div>
+                <div class="flex items-center gap-3 mb-6"><div class="w-6 h-[1px] bg-black"></div><span class="text-xs font-bold tracking-widest uppercase text-gray-500">Let's Connect</span></div>
                 <h2 class="text-5xl md:text-7xl font-bold leading-tight mb-8">Mulai <span class="text-gray-300 italic">Sesuatu</span> Bersama.</h2>
-                
                 <div class="space-y-6">
-                    <p class="text-lg text-gray-500 italic max-w-md">
-                        "Fisika mengajarkan kita bahwa energi tidak bisa dimusnahkan, hanya bisa diubah bentuknya. Begitu juga dengan ide; mari ubah ide kita menjadi inovasi nyata."
-                    </p>
-                    
+                    <p class="text-lg text-gray-500 italic max-w-md">"Fisika mengajarkan kita bahwa energi tidak bisa dimusnahkan, hanya bisa diubah bentuknya. Begitu juga dengan ide; mari ubah ide kita menjadi inovasi nyata."</p>
                     <div class="flex flex-col gap-4 pt-4">
-                        <a href="mailto:aulianurkamilah080507@gmail.com" class="text-xl md:text-2xl font-bold hover:text-gray-500 transition-colors flex items-center gap-4">
-                            aulianurkamilah080507@gmail.com
-                            <i class="ph ph-arrow-right text-gray-300"></i>
+                        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=aulianurkamilah080507@gmail.com&su=Kerja%20Sama&body=Halo%20Aulia%2C%20saya%20tertarik%20dengan%20portofolio%20Anda" target="_blank" class="text-xl md:text-2xl font-bold hover:text-gray-500 transition-colors flex items-center gap-4">
+                             aulianurkamilah080507@gmail.com
+                             <i class="ph ph-arrow-right text-gray-300"></i>
                         </a>
-                        <a href="https://wa.me/6283891031318" target="_blank" class="text-xl md:text-2xl font-bold hover:text-gray-500 transition-colors flex items-center gap-4">
-                            +62 838 9103 1318
-                            <i class="ph ph-arrow-right text-gray-300"></i>
-                        </a>
+                        <a href="https://wa.me/6283891031318" target="_blank" class="text-xl md:text-2xl font-bold hover:text-gray-500 transition-colors flex items-center gap-4">+62 838 9103 1318 <i class="ph ph-arrow-right text-gray-300"></i></a>
                     </div>
                 </div>
             </div>
-            
             <div class="relative reveal-up" style="transition-delay: 200ms;">
                 <div class="bg-black text-white p-12 rounded-[2rem] aspect-square flex flex-col justify-between shadow-2xl overflow-hidden group">
-                    <!-- Background Decoration -->
                     <div class="absolute -top-20 -right-20 w-64 h-64 bg-white/5 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
-                    
                     <div class="z-10">
                         <h4 class="text-sm font-bold tracking-[0.3em] uppercase opacity-50 mb-4 text-gray-400">Quick Message</h4>
-                        <p class="text-2xl font-medium leading-relaxed">
-                            Punya pertanyaan tentang proyek fisika, kolaborasi data, atau sekadar ingin menyapa? Pintu saya selalu terbuka.
-                        </p>
+                        <p class="text-2xl font-medium leading-relaxed">Punya pertanyaan tentang proyek fisika, kolaborasi data, atau sekadar ingin menyapa? Pintu saya selalu terbuka.</p>
                     </div>
-                    
                     <div class="z-10 flex justify-between items-end">
-                        <div class="space-y-2">
-                            <span class="block text-xs font-bold text-gray-400 uppercase tracking-widest">Available for</span>
-                            <span class="text-sm border border-white/20 px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm">Remote Work & Research</span>
-                        </div>
+                        <div class="space-y-2"><span class="text-sm border border-white/20 px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm">Remote Work & Research</span></div>
                         <i class="ph ph-chats-circle text-6xl opacity-20"></i>
                     </div>
                 </div>
             </div>
         </div>
-        
         <footer class="mt-24 pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold tracking-widest uppercase text-gray-400">
-            <p>© 2024 AULIA NURKAMILAH. ALL RIGHTS RESERVED.</p>
+            <p>© 2026 AULIA NURKAMILAH • ALL RIGHTS RESERVED.</p>
             <div class="flex gap-8">
-                <a href="#" class="hover:text-black transition-colors">PRIVACY POLICY</a>
-                <a href="#" class="hover:text-black transition-colors">TERMS OF SERVICE</a>
-                <a href="#" class="hover:text-black transition-colors underline decoration-black/20 decoration-2 underline-offset-4">BACK TO TOP</a>
+                <button onclick="openModal('modal-privacy')" class="hover:text-black transition-colors">PRIVACY POLICY</button>
+                <button onclick="openModal('modal-terms')" class="hover:text-black transition-colors">TERMS OF SERVICE</button>
+                <a href="javascript:void(0)" onclick="scrollToTop()" class="hover:text-black transition-colors underline decoration-black/20 decoration-2 underline-offset-4">BACK TO TOP</a>
             </div>
         </footer>
     </section>
 
-    <!-- ======================= -->
-    <!-- AI CHAT BUBBLE & WINDOW -->
-    <!-- ======================= -->
+    <!-- AI Chat -->
     <div class="fixed bottom-6 right-6 z-[200]">
-        <!-- Chat Window -->
         <div id="ai-chat-window" class="ai-chat-window absolute bottom-20 right-0 w-[90vw] md:w-[400px] h-[500px] rounded-3xl overflow-hidden flex flex-col glass-card shadow-2xl border border-white/40">
-            <!-- Header -->
             <div class="p-6 bg-black text-white flex justify-between items-center">
                 <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-500 to-blue-400 flex items-center justify-center animate-pulse">
-                        <i class="ph ph-sparkle text-sm"></i>
-                    </div>
-                    <div>
-                        <h4 class="text-sm font-bold">Aulia's AI Assistant</h4>
-                        <span class="text-[10px] opacity-60">Powered by Gemini</span>
-                    </div>
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-500 to-blue-400 flex items-center justify-center animate-pulse"><i class="ph ph-sparkle text-sm"></i></div>
+                    <div><h4 class="text-sm font-bold">Aulia's AI Assistant</h4><span class="text-[10px] opacity-60">Powered by Gemini</span></div>
                 </div>
-                <button onclick="toggleAIChat()" class="hover:rotate-90 transition-transform">
-                    <i class="ph ph-x text-xl"></i>
-                </button>
+                <button onclick="toggleAIChat()" class="hover:rotate-90 transition-transform"><i class="ph ph-x text-xl"></i></button>
             </div>
-            
-            <!-- Messages Area -->
-            <div id="chat-messages" class="flex-1 overflow-y-auto p-6 space-y-4 text-sm bg-white/30 hide-scrollbar">
-                <div class="bg-black/5 p-4 rounded-2xl rounded-tl-none border border-black/5 max-w-[85%]">
-                    Halo! Saya asisten AI Aulia. Ada yang bisa saya bantu seputar portofolio atau bidang fisika?
-                </div>
-            </div>
-            
-            <!-- Input Area -->
+            <div id="chat-messages" class="flex-1 overflow-y-auto p-6 space-y-4 text-sm bg-white/30 hide-scrollbar"><div class="bg-black/5 p-4 rounded-2xl rounded-tl-none border border-black/5 max-w-[85%]">Halo! Saya asisten AI Aulia. Ada yang bisa saya bantu seputar portofolio atau bidang fisika?</div></div>
             <div class="p-4 bg-white/50 border-t border-black/5 flex gap-2">
                 <input type="text" id="ai-input" placeholder="Tanyakan sesuatu..." class="flex-1 bg-white/80 border border-black/10 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black/5 transition-all">
-                <button onclick="sendMessage()" id="send-btn" class="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center hover:scale-110 active:scale-95 transition-all">
-                    <i class="ph ph-paper-plane-right"></i>
-                </button>
+                <button onclick="sendMessage()" id="send-btn" class="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center hover:scale-110 active:scale-95 transition-all"><i class="ph ph-paper-plane-right"></i></button>
             </div>
         </div>
-
-        <!-- Toggle Button -->
-        <button onclick="toggleAIChat()" id="ai-toggle-btn" class="w-14 h-14 bg-black text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 active:scale-90 transition-all group overflow-hidden relative">
-            <div class="absolute inset-0 bg-gradient-to-tr from-purple-600/20 to-blue-400/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <i class="ph ph-robot text-2xl animate-bounce-subtle"></i>
-        </button>
+        <button onclick="toggleAIChat()" id="ai-toggle-btn" class="w-14 h-14 bg-black text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 active:scale-90 transition-all group overflow-hidden relative"><div class="absolute inset-0 bg-gradient-to-tr from-purple-600/20 to-blue-400/20 opacity-0 group-hover:opacity-100 transition-opacity"></div><i class="ph ph-robot text-2xl animate-bounce-subtle"></i></button>
     </div>
 
-    <!-- Scripts -->
     <script>
+        function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
         function openModal(id) {
             const modal = document.getElementById(id);
             modal.classList.remove('hidden-modal');
-            requestAnimationFrame(() => {
-                modal.classList.add('active');
-            });
+            requestAnimationFrame(() => { modal.classList.add('active'); });
             document.body.style.overflow = 'hidden'; 
         }
-
         function closeModal(id) {
             const modal = document.getElementById(id);
             modal.classList.remove('active');
-            setTimeout(() => {
-                modal.classList.add('hidden-modal');
-                document.body.style.overflow = 'auto';
-            }, 400);
+            setTimeout(() => { modal.classList.add('hidden-modal'); document.body.style.overflow = 'auto'; }, 400);
         }
-
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal-overlay')) {
-                const modalId = event.target.id;
-                closeModal(modalId);
-            }
-        }
-
-        // Observer for Scroll Animations
+        window.onclick = function(event) { if (event.target.classList.contains('modal-overlay')) { closeModal(event.target.id); } }
         document.addEventListener('DOMContentLoaded', () => {
             const reveals = document.querySelectorAll('.reveal-up');
-            
-            const revealOptions = {
-                threshold: 0.15,
-                rootMargin: "0px 0px -50px 0px"
-            };
-
             const revealOnScroll = new IntersectionObserver(function(entries, observer) {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, revealOptions);
-
-            reveals.forEach(reveal => {
-                revealOnScroll.observe(reveal);
-            });
+                entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); observer.unobserve(entry.target); } });
+            }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+            reveals.forEach(reveal => revealOnScroll.observe(reveal));
         });
-
         function downloadCV() {
             fetch('https://raw.githubusercontent.com/daffahub123/my-cv/main/CV_Aulia_Nurkamilah.pdf')
-            .then(res => res.blob())
-            .then(blob => {
+            .then(res => res.blob()).then(blob => {
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
-                a.href = url;
-                a.download = 'CV_Aulia_Nurkamilah.pdf';
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
+                a.href = url; a.download = 'CV_Aulia_Nurkamilah.pdf';
+                document.body.appendChild(a); a.click(); a.remove();
                 window.URL.revokeObjectURL(url);
             });
         }
-
-        // ======================= 
-        // AI CHAT LOGIC (Gemini)
-        // ======================= 
         let isChatOpen = false;
-        const apiKey = ""; // API Key provided by environment
-        const systemPrompt = "Kamu adalah asisten AI untuk portofolio Aulia Nurkamilah. Aulia adalah mahasiswa Fisika UIN Syarif Hidayatullah Jakarta. Dia ahli di bidang analisis data fisika, eksperimen lab, dan simulasi komputasi. Jawablah dengan sopan, cerdas, dan profesional. Jika ditanya kontak, emailnya adalah aulianurkamilah080507@gmail.com dan nomor WhatsAppnya +6283891031318.";
-
+        const apiKey = ""; 
+        const systemPrompt = "Kamu adalah asisten AI untuk portofolio Aulia Nurkamilah. Aulia adalah mahasiswa Fisika UIN Syarif Hidayatullah Jakarta. Dia ahli di bidang analisis data fisika, eksperimen lab, dan simulasi komputasi. Jawablah dengan sopan, cerdas, dan profesional. Jika ditanya kontak, emailnya adalah aulianurkamilah080507@gmail.com dan nomor WhatsAppnya +6283891031318. hindari simbol #*";
         function toggleAIChat() {
             isChatOpen = !isChatOpen;
             const windowEl = document.getElementById('ai-chat-window');
-            if (isChatOpen) {
-                windowEl.classList.add('active');
-            } else {
-                windowEl.classList.remove('active');
-            }
+            if (isChatOpen) windowEl.classList.add('active'); else windowEl.classList.remove('active');
         }
-
         async function sendMessage() {
             const input = document.getElementById('ai-input');
             const container = document.getElementById('chat-messages');
             const text = input.value.trim();
-            
             if (!text) return;
-
-            // User Message
             addMessage(text, 'user');
             input.value = '';
-
-            // Loading state
             const loadingId = 'loading-' + Date.now();
             const loadingMsg = document.createElement('div');
-            loadingMsg.id = loadingId;
-            loadingMsg.className = 'bg-black/5 p-4 rounded-2xl rounded-tl-none border border-black/5 max-w-[85%] italic text-gray-400';
-            loadingMsg.innerText = 'Mengetik...';
-            container.appendChild(loadingMsg);
-            container.scrollTop = container.scrollHeight;
-
+            loadingMsg.id = loadingId; loadingMsg.className = 'bg-black/5 p-4 rounded-2xl rounded-tl-none border border-black/5 max-w-[85%] italic text-gray-400';
+            loadingMsg.innerText = 'Mengetik...'; container.appendChild(loadingMsg); container.scrollTop = container.scrollHeight;
             try {
                 const response = await fetchWithRetry(text);
-                loadingMsg.remove();
-                addMessage(response, 'ai');
-            } catch (error) {
-                loadingMsg.innerText = "Maaf, sedang ada kendala koneksi. Coba lagi nanti ya.";
-            }
+                loadingMsg.remove(); addMessage(response, 'ai');
+            } catch (error) { loadingMsg.innerText = "Maaf, sedang ada kendala koneksi."; }
         }
-
         async function fetchWithRetry(query, retries = 5) {
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-            const payload = {
-                contents: [{ parts: [{ text: query }] }],
-                systemInstruction: { parts: [{ text: systemPrompt }] }
-            };
-
+            const payload = { contents: [{ parts: [{ text: query }] }], systemInstruction: { parts: [{ text: systemPrompt }] } };
             for (let i = 0; i < retries; i++) {
                 try {
-                    const res = await fetch(url, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
+                    const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                     const data = await res.json();
                     return data.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, saya tidak bisa memproses permintaan Anda.";
-                } catch (e) {
-                    if (i === retries - 1) throw e;
-                    const delay = Math.pow(2, i) * 1000;
-                    await new Promise(r => setTimeout(r, delay));
-                }
+                } catch (e) { if (i === retries - 1) throw e; await new Promise(r => setTimeout(r, Math.pow(2, i) * 1000)); }
             }
         }
-
         function addMessage(text, sender) {
             const container = document.getElementById('chat-messages');
             const div = document.createElement('div');
-            if (sender === 'user') {
-                div.className = 'bg-black text-white p-4 rounded-2xl rounded-tr-none ml-auto max-w-[85%] shadow-lg';
-            } else {
-                div.className = 'bg-white p-4 rounded-2xl rounded-tl-none border border-black/5 max-w-[85%] shadow-sm';
-            }
-            div.innerText = text;
-            container.appendChild(div);
-            container.scrollTop = container.scrollHeight;
+            div.className = sender === 'user' ? 'bg-black text-white p-4 rounded-2xl rounded-tr-none ml-auto max-w-[85%] shadow-lg' : 'bg-white p-4 rounded-2xl rounded-tl-none border border-black/5 max-w-[85%] shadow-sm';
+            div.innerText = text; container.appendChild(div); container.scrollTop = container.scrollHeight;
         }
-
-        document.getElementById('ai-input').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendMessage();
-        });
+        document.getElementById('ai-input').addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); });
     </script>
-
 </body>
 </html>
