@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Madhu - Product Designer Portfolio</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        black: '#111111',
+                        gray: {
+                            50: '#f9fafb',
+                            100: '#f3f4f6',
+                            200: '#e5e7eb',
+                            300: '#d1d5db',
+                            400: '#9ca3af',
+                            500: '#6b7280',
+                            600: '#4b5563',
+                            900: '#111827',
+                        }
+                    },
+                    animation: {
+                        'marquee': 'marquee 25s linear infinite',
+                    },
+                    keyframes: {
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-100%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            color: #111111;
+            overflow-x: hidden;
+        }
+        
+        .blob-bg {
+            background: linear-gradient(120deg, rgba(255,200,100,0.6) 0%, rgba(255,100,200,0.5) 50%, rgba(100,200,255,0.6) 100%);
+            filter: blur(60px);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+        
+        .marquee-container {
+            display: flex;
+            white-space: nowrap;
+        }
+
+        /* Modal specific styles & Animations */
+        .modal-overlay {
+            backdrop-filter: blur(8px);
+            background-color: rgba(255, 255, 255, 0.4);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            transform: scale(0.9) translateY(20px);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0;
+        }
+
+        /* Khusus My Project: Latar belakang putih transparan 50% */
+        #modal-projects .glass-card {
+            background: rgba(255, 255, 255, 0.5) !important;
+        }
+
+        .modal-overlay.active .glass-card {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+
+        .hidden-modal {
+            display: none !important;
+        }
+
+        /* Styles specifically for Documentation Modal */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .dok-img-wrapper {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .dok-img-wrapper:hover {
+            transform: scale(1.03);
+        }
+        /* Override default modal overlay for dokumentasi to remove white tint */
+        #modal-dokumentasi {
+            background-color: rgba(0, 0, 0, 0.8) !important;
+            backdrop-filter: blur(16px) !important;
+        }
+    </style>
+</head>
+<body class="bg-white antialiased">
+
+    <!-- Modal My Projects -->
+    <div id="modal-projects" class="fixed inset-0 z-[100] flex items-center justify-center p-4 modal-overlay hidden-modal">
+        <div class="glass-card w-full max-w-4xl max-h-[80vh] rounded-3xl overflow-hidden flex flex-col relative">
+            <button onclick="closeModal('modal-projects')" class="absolute top-6 right-6 z-50 bg-black text-white w-10 h-10 rounded-full flex items-center justify-center hover:scale-110 transition-transform">
+                <i class="ph ph-x font-bold"></i>
+            </button>
+            <div class="p-8 md:p-12 overflow-y-auto">
+                <h2 class="text-3xl font-bold mb-8">My Projects</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Project 1 -->
+                    <div class="space-y-4">
+                        <div class="aspect-video bg-gray-200 rounded-2xl overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=800" class="w-full h-full object-cover" alt="Proyek 1">
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg">Analisis Termodinamika</h3>
+                            <p class="text-sm text-gray-500">Penelitian tentang efisiensi energi pada sistem tertutup menggunakan model komputasi.</p>
+                        </div>
+                    </div>
+                    <!-- Project 2 -->
+                    <div class="space-y-4">
+                        <div class="aspect-video bg-gray-200 rounded-2xl overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=800" class="w-full h-full object-cover" alt="Proyek 2">
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg">Simulasi Optik</h3>
+                            <p class="text-sm text-gray-500">Pengembangan alat peraga digital untuk hukum pembiasan cahaya pada lensa cembung.</p>
+                        </div>
+                    </div>
+                    <!-- Project 3 -->
+                    <div class="space-y-4">
+                        <div class="aspect-video bg-gray-200 rounded-2xl overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1507413245164-6160d8298b31?q=80&w=800" class="w-full h-full object-cover" alt="Proyek 3">
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg">Himpunan Dashboard</h3>
+                            <p class="text-sm text-gray-500">Sistem manajemen inventaris laboratorium fisika berbasis web sederhana.</p>
+                        </div>
+                    </div>
+                    <!-- Project 4 -->
+                    <div class="space-y-4">
+                        <div class="aspect-video bg-gray-200 rounded-2xl overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?q=80&w=800" class="w-full h-full object-cover" alt="Proyek 4">
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg">Data Science Fisika</h3>
+                            <p class="text-sm text-gray-500">Visualisasi data sebaran energi terbarukan di wilayah perkotaan menggunakan Python.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal About Me -->
+    <div id="modal-about" class="fixed inset-0 z-[100] flex items-center justify-center p-4 modal-overlay hidden-modal">
+        <div class="glass-card w-full max-w-2xl rounded-3xl p-8 md:p-12 relative">
+            <button onclick="closeModal('modal-about')" class="absolute top-6 right-6 z-50 bg-black text-white w-10 h-10 rounded-full flex items-center justify-center hover:scale-110 transition-transform">
+                <i class="ph ph-x font-bold"></i>
+            </button>
+            <div class="space-y-6">
+                <h2 class="text-3xl font-bold">Tentang Saya</h2>
+                <div class="h-[1px] w-12 bg-black"></div>
+                <p class="text-lg leading-relaxed text-gray-800">
+                    "Saya adalah seorang mahasiswa Fisika yang memiliki antusiasme tinggi dalam mengintegrasikan ilmu sains dengan teknologi digital. Dedikasi saya terletak pada pemecahan masalah kompleks melalui analisis data yang presisi dan logika berpikir yang kuat. Saya percaya bahwa pemahaman mendalam tentang fenomena alam adalah kunci untuk menciptakan inovasi masa depan."
+                </p>
+                <div class="grid grid-cols-2 gap-4 pt-4">
+                    <div>
+                        <span class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Pendidikan</span>
+                        <span class="text-sm font-medium">UIN Syarif Hidayatullah Jakarta</span>
+                    </div>
+                    <div>
+                        <span class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Fokus</span>
+                        <span class="text-sm font-medium">Fisika Murni & Komputasi</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Dokumentasi -->
+    <div id="modal-dokumentasi" class="fixed inset-0 z-[120] flex items-center p-0 modal-overlay hidden-modal">
+        <button onclick="closeModal('modal-dokumentasi')" class="absolute top-6 right-6 z-[130] text-white/70 hover:text-white w-12 h-12 flex items-center justify-center hover:scale-110 transition-transform bg-white/10 rounded-full backdrop-blur-md border border-white/20">
+            <i class="ph ph-x text-2xl font-bold"></i>
+        </button>
+        
+        <!-- Container Slide Horizontal -->
+        <div class="w-full overflow-x-auto hide-scrollbar flex items-center gap-6 px-8 md:px-16 py-8 snap-x snap-mandatory h-full">
+            <div class="shrink-0 w-2 md:w-8"></div> <!-- Spacer Start -->
+            
+            <!-- Foto 1 -->
+            <div class="snap-center shrink-0 dok-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=800" alt="Dokumentasi 1" class="h-[50vh] md:h-[70vh] w-auto object-cover rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.6)] border border-white/10">
+            </div>
+            <!-- Foto 2 -->
+            <div class="snap-center shrink-0 dok-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?q=80&w=800" alt="Dokumentasi 2" class="h-[50vh] md:h-[70vh] w-auto object-cover rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.6)] border border-white/10">
+            </div>
+            <!-- Foto 3 -->
+            <div class="snap-center shrink-0 dok-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=800" alt="Dokumentasi 3" class="h-[50vh] md:h-[70vh] w-auto object-cover rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.6)] border border-white/10">
+            </div>
+            <!-- Foto 4 -->
+            <div class="snap-center shrink-0 dok-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=800" alt="Dokumentasi 4" class="h-[50vh] md:h-[70vh] w-auto object-cover rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.6)] border border-white/10">
+            </div>
+            <!-- Foto 5 -->
+            <div class="snap-center shrink-0 dok-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1582719478250-c8940cebf8e2?q=80&w=800" alt="Dokumentasi 5" class="h-[50vh] md:h-[70vh] w-auto object-cover rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.6)] border border-white/10">
+            </div>
+            
+            <div class="shrink-0 w-2 md:w-8"></div> <!-- Spacer End -->
+        </div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="w-full max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+        <div class="flex items-center gap-4">
+            <h1 class="text-3xl font-bold tracking-tight">it's me</h1>
+            <svg class="w-6 h-6 text-gray-400 -ml-2 mt-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 20L20 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </div>
+        
+        <nav class="flex flex-wrap gap-8 lg:gap-12">
+            <!-- Nav Item 1: My Projects -->
+            <div onclick="openModal('modal-projects')" class="group cursor-pointer">
+                <div class="flex items-center justify-between border-b border-black pb-1 mb-2">
+                    <span class="font-semibold text-sm">My Projects</span>
+                    <i class="ph ph-arrow-up-right text-xs"></i>
+                </div>
+                <p class="text-[10px] text-gray-500 max-w-[120px] leading-tight group-hover:text-black transition-colors">Lihat semua proyek menarik yang telah saya selesaikan.</p>
+            </div>
+            <!-- Nav Item 2: About Me -->
+            <div onclick="openModal('modal-about')" class="group cursor-pointer">
+                <div class="flex items-center justify-between border-b border-gray-300 pb-1 mb-2 group-hover:border-black transition-colors">
+                    <span class="font-semibold text-sm text-gray-600 group-hover:text-black transition-colors">About Me</span>
+                    <i class="ph ph-arrow-up-right text-xs text-gray-400 group-hover:text-black"></i>
+                </div>
+                <p class="text-[10px] text-gray-500 max-w-[120px] leading-tight group-hover:text-black transition-colors">Pelajari lebih lanjut tentang diri saya dan apa yang saya lakukan.</p>
+            </div>
+            <!-- Nav Item 3: Contact Me -->
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=aulianurkamilah080507@gmail.com" target="_blank" class="group cursor-pointer block">
+                <div class="flex items-center justify-between border-b border-gray-300 pb-1 mb-2 group-hover:border-black transition-colors">
+                 <span class="font-semibold text-sm text-gray-600 group-hover:text-black transition-colors">Contact me</span>
+                 <i class="ph ph-arrow-up-right text-xs text-gray-400 group-hover:text-black"></i>
+                </div>
+                 <p class="text-[10px] text-gray-500 max-w-[120px] leading-tight group-hover:text-black transition-colors">aulianurkamilah080507@gmail.com</p>
+            </a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <main class="w-full max-w-7xl mx-auto px-6 pt-12 pb-20 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-4 items-center">
+        <!-- Left Content -->
+        <div class="space-y-8 z-10 relative">
+            <div class="space-y-4">
+                <span class="text-3xl">👋</span>
+                <h2 class="text-5xl md:text-7xl font-bold tracking-tight text-gray-400">Hello! <br> <span class="text-black">I'm Aulia Nurkamilah</span></h2>
+                
+                <div class="flex items-center gap-4 py-2">
+                    <div class="h-[1px] w-12 bg-gray-400"></div>
+                    <h3 class="text-xl md:text-2xl font-medium text-gray-600">Mahasiswa Fisika <i class="ph-fill ph-sparkle text-black ml-1"></i></h3>
+                </div>
+                
+                <p class="text-sm text-gray-500 leading-relaxed max-w-md mt-4">
+                    Hello! saya Aulia Nurkamilah. dan saya <span class="font-semibold text-black">Mahasiswa UIN Syarif Hidayatullah Jakarta, Jurusan Fisika</span>, yang tertarik pada penelitian, analisis data, dan pengembangan teknologi berbasis sains. Saya senang memecahkan masalah dan memahami fenomena alam secara mendalam.
+                </p>
+            </div>
+
+            <ul class="space-y-3 text-sm font-medium text-gray-700">
+                <li class="flex items-center gap-3">
+                    <i class="ph ph-check text-black font-bold"></i> Berpikir analisis dan logis
+                </li>
+                <li class="flex items-center gap-3">
+                    <i class="ph ph-check text-black font-bold"></i> Terbiasa dengan eksperiman dan penelitian
+                </li>
+                <li class="flex items-center gap-3">
+                    <i class="ph ph-check text-black font-bold"></i> Mampu mengolah dan menganalisis data
+                </li>
+                <li class="flex items-center gap-3">
+                    <i class="ph ph-check text-black font-bold"></i> Memahami dasar Matematika dan Fisika
+                </li>
+                <li class="flex items-center gap-3">
+                    <i class="ph ph-check text-black font-bold"></i> Tertarik pada teknologi dan inovasi
+                </li>
+            </ul>
+
+            <div class="flex items-center gap-8 pt-4">
+                <!-- WhatsApp Link updated -->
+                <a href="https://wa.me/6283891031318" target="_blank" class="bg-black text-white px-8 py-3 rounded-full text-sm font-medium hover:bg-gray-800 transition-colors inline-flex items-center gap-2">
+                    Let's Talk <i class="ph-fill ph-whatsapp-logo text-lg"></i>
+                </a>
+                <!-- Link Download CV Updated -->
+                    <a href="#" onclick="downloadCV()" class="text-sm font-semibold flex items-center gap-2 border-b-2 border-black pb-1 hover:text-gray-600 hover:border-gray-600 transition-colors">
+                    Download CV <i class="ph ph-arrow-down font-bold"></i>
+                    </a>
+
+                        <script>
+                        function downloadCV() {
+                            fetch('https://raw.githubusercontent.com/daffahub123/my-cv/main/CV_Aulia_Nurkamilah.pdf')
+                            .then(res => res.blob())
+                            .then(blob => {
+                                const url = window.URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = 'CV_Aulia_Nurkamilah.pdf';
+                                document.body.appendChild(a);
+                                a.click();
+                                a.remove();
+                                window.URL.revokeObjectURL(url);
+                            });
+                        }
+                        </script>
+                    </a>
+                    
+                    <script>
+                    function downloadCV() {
+                        fetch('https://raw.githubusercontent.com/daffahub123/my-cv/main/CV_Aulia_Nurkamilah.pdf')
+                        .then(res => res.blob())
+                        .then(blob => {
+                            const url = window.URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = 'CV_Aulia_Nurkamilah.pdf';
+                            document.body.appendChild(a);
+                            a.click();
+                            a.remove();
+                            window.URL.revokeObjectURL(url);
+                        });
+                    }
+                    </script>
+                </a>
+            </div>
+        </div>
+
+        <!-- Right Image/Visuals -->
+        <div class="relative w-full h-[500px] md:h-[600px] flex justify-center items-end mt-12 lg:mt-0">
+            <!-- Colorful Blob Background -->
+            <div class="absolute top-10 right-10 w-[300px] h-[300px] md:w-[450px] md:h-[450px] rounded-full blob-bg z-0"></div>
+            
+            <!-- Abstract Elements -->
+            <svg class="absolute top-1/4 left-0 md:-left-12 w-8 h-8 text-black opacity-60 z-20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20" stroke-linecap="round"/></svg>
+            <svg class="absolute bottom-1/4 right-0 md:-right-12 w-12 h-12 text-black opacity-80 z-20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h2m4-4l-2 2m4-4v2m4-2l-2 2m4 4h-2m-2 4l2-2m-4 4v-2m-4 2l2-2m-4-4H7m2-4L7 9"/></svg>
+            <svg class="absolute top-10 right-1/4 w-12 h-12 text-gray-800 z-20" viewBox="0 0 24 24" fill="none"><path d="M4 4l16 16m0-16L4 20" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
+
+            <!-- Floating Hello Badge -->
+            <div class="absolute top-1/3 left-4 md:left-10 bg-black text-white w-20 h-20 rounded-full flex items-center justify-center -rotate-12 z-20 shadow-lg border-2 border-white">
+                <span class="font-medium">Hello</span>
+            </div>
+
+            <!-- Person Image -->
+            <img src="https://res.cloudinary.com/dvpm3w0ed/image/upload/v1774385780/Desain_tanpa_judul_2_ee6xib.png" alt="Aulia Nurkamilah" class="relative z-10 w-[130%] max-w-[610px] object-cover rounded-t-full drop-shadow-2xl grayscale-[10%] sepia-[10%] contrast-125" style="mask-image: linear-gradient(to top, transparent 0%, black 20%); -webkit-mask-image: linear-gradient(to top, transparent 0%, black 20%);" />
+        </div>
+    </main>
+
+    <!-- Infinite Marquee -->
+    <div class="bg-black text-white py-4 overflow-hidden relative w-full flex items-center border-y-2 border-gray-800 shadow-xl">
+        <div class="marquee-container animate-marquee text-sm font-semibold tracking-widest uppercase">
+            <div class="flex items-center">
+                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> IAR
+                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> FISIKA 
+                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> UNIV UIN 
+                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> HIMA 
+                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> PARAGON
+                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> IAR 
+                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> FISIKA 
+                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> UNIV UIN
+                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> HIMA 
+                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> PARAGON
+            </div>
+            <div class="flex items-center">
+                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> IAR 
+                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> FISIKA 
+                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> UNIV UIN 
+                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> HIMA 
+                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> PARAGON
+                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> IAR 
+                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> FISIKA 
+                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> UNIV UIN
+                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> HIMA 
+                <i class="ph-fill ph-sparkle mx-8 text-gray-400"></i> PARAGON
+            </div>
+        </div>
+    </div>
+
+    <!-- Social Links Banner -->
+    <div class="w-full max-w-7xl mx-auto px-6 py-6 border-b border-gray-200 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-semibold tracking-wider text-gray-600">
+        <div class="flex items-center gap-8">
+            <a href="https://youtube.com/@sinesuny?si=5DV01aBL-rvG4Tzg" target="_blank" class="hover:text-black transition-colors flex items-center gap-2">
+                <i class="ph-fill ph-youtube-logo text-sm"></i> YOUTUBE
+            </a>
+            <a href="https://www.tiktok.com/@allowlli?is_from_webapp=1&sender_device=pc" target="_blank" class="hover:text-black transition-colors flex items-center gap-2">
+                <i class="ph-fill ph-tiktok-logo text-sm"></i> TIKTOK
+            </a>
+            <a href="https://www.instagram.com/amilah.li?igsh=bmZpYTBzeG9xdmw1" target="_blank" class="hover:text-black transition-colors flex items-center gap-2">
+                <i class="ph-fill ph-instagram-logo text-sm"></i> INSTAGRAM
+            </a>
+        </div>
+       <a href="mailto:aulianurkamilah080507@gmail.com" onclick="window.open('https://mail.google.com/mail/?view=cm&fs=1&to=aulianurkamilah080507@gmail.com','_blank')" class="hover:text-black transition-colors flex items-center gap-2">
+            <i class="ph-fill ph-envelope-simple text-sm"></i> aulianurkamilah080507@gmail.com
+        </a>
+    </div>
+
+    <!-- Services Section -->
+    <section class="w-full max-w-7xl mx-auto px-6 py-20">
+        <div class="flex flex-col md:flex-row justify-between items-end gap-8 mb-16">
+            <div>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-6 h-[1px] bg-black"></div>
+                    <span class="text-xs font-bold tracking-widest uppercase text-gray-500">Layanan Saya</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold uppercase leading-tight">Bidang yang<br>Saya kuasai</h2>
+            </div>
+            
+            <div class="max-w-md flex flex-col md:flex-row md:items-end justify-between gap-6 w-full md:w-auto">
+                <p class="text-sm text-gray-500 leading-relaxed max-w-xs">
+                    Berikut adalah beberapa bidang yang saya pelajari dan kembangkan sebagai mahasiswa fisika.
+                </p>
+                <a href="#" class="bg-black text-white px-8 py-3 rounded-full text-xs font-bold tracking-wider hover:bg-gray-800 transition-colors whitespace-nowrap">
+                    SEMUA KEAHLIAN
+                </a>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+            <div class="bg-black text-white p-10 flex flex-col justify-between aspect-square group cursor-pointer border border-black hover:shadow-2xl transition-all">
+                <i class="ph ph-bezier-curve text-5xl font-light opacity-80 group-hover:scale-110 transition-transform origin-left"></i>
+                <div>
+                    <h3 class="text-xl font-bold mb-6 w-2/3">Analisis<br>Data<br>Fisika</h3>
+                    <div class="flex items-center gap-2 text-xs font-semibold tracking-wider text-gray-400 group-hover:text-white transition-colors">
+                        BACA SELENGKAPNYA <i class="ph ph-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border border-gray-200 p-10 flex flex-col justify-between aspect-square group cursor-pointer hover:border-black transition-all">
+                <i class="ph ph-paint-brush-broad text-5xl font-light text-black opacity-80 group-hover:scale-110 transition-transform origin-left"></i>
+                <div>
+                    <h3 class="text-xl font-bold mb-6 w-2/3 text-black">Eksperimen<br>Praktikum</h3>
+                    <div class="flex items-center gap-2 text-xs font-semibold tracking-wider text-gray-500 group-hover:text-black transition-colors">
+                        BACA SELENGKAPNYA <i class="ph ph-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border border-gray-200 p-10 flex flex-col justify-between aspect-square group cursor-pointer hover:border-black transition-all">
+                <i class="ph ph-strategy text-5xl font-light text-black opacity-80 group-hover:scale-110 transition-transform origin-left"></i>
+                <div>
+                    <h3 class="text-xl font-bold mb-6 w-2/3 text-black">Matematika<br>Simulasi<br>Komputasi</h3>
+                    <div class="flex items-center gap-2 text-xs font-semibold tracking-wider text-gray-500 group-hover:text-black transition-colors">
+                        BACA SELENGKAPNYA <i class="ph ph-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======================= -->
+    <!-- BAGIAN BARU: PENGALAMAN -->
+    <!-- ======================= -->
+    <style>
+        /* Animasi Khusus untuk Scroll Reveal di section Pengalaman */
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal-up.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+
+    <section class="w-full max-w-7xl mx-auto px-6 py-20 border-t border-gray-100">
+        <!-- Header Pengalaman -->
+        <div class="flex flex-col md:flex-row justify-between items-end gap-8 mb-16 reveal-up">
+            <div>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-6 h-[1px] bg-black"></div>
+                    <span class="text-xs font-bold tracking-widest uppercase text-gray-500">Perjalanan & Karir</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold uppercase leading-tight">Pengalaman<br>Saya</h2>
+            </div>
+            <div class="max-w-md">
+                <p class="text-sm text-gray-500 leading-relaxed">
+                    Dedikasi dan kontribusi saya dalam berbagai kegiatan akademik, organisasi, serta penelitian untuk terus mengembangkan diri.
+                </p>
+            </div>
+        </div>
+
+        <div class="space-y-8">
+            <!-- Experience Card 1 -->
+            <div class="group flex flex-col md:flex-row bg-white border border-gray-200 hover:border-black transition-all duration-500 overflow-hidden reveal-up">
+                <div class="w-full md:w-5/12 overflow-hidden bg-gray-100 aspect-video md:aspect-auto">
+                    <!-- Efek grayscale ke normal saat hover + scale up -->
+                    <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?q=80&w=800" alt="Lab Fisika" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700">
+                </div>
+                <div class="w-full md:w-7/12 p-8 md:p-12 flex flex-col justify-center">
+                    <div class="flex items-center gap-4 mb-4">
+                        <span class="bg-black text-white text-[10px] font-bold tracking-widest uppercase px-3 py-1">2023 - Sekarang</span>
+                        <span class="text-xs font-bold text-gray-400">UIN Syarif Hidayatullah</span>
+                    </div>
+                    <h3 class="text-2xl md:text-3xl font-bold mb-4 group-hover:text-gray-700 transition-colors">Asisten Laboratorium Fisika Dasar</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-8">
+                        Bertanggung jawab dalam membimbing mahasiswa baru selama kegiatan praktikum. Memastikan kelancaran eksperimen mekanika, termodinamika, dan listrik magnet, serta melakukan evaluasi terhadap laporan praktikum mingguan dengan standar yang ketat.
+                    </p>
+                    <div class="mt-auto">
+                        <button onclick="openModal('modal-dokumentasi')" class="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-black border-b-2 border-transparent group-hover:border-black transition-all pb-1 active:scale-95 active:opacity-70 cursor-pointer">
+                            LIHAT DOKUMENTASI <i class="ph ph-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Experience Card 2 (Zig-Zag) -->
+            <div class="group flex flex-col md:flex-row-reverse bg-white border border-gray-200 hover:border-black transition-all duration-500 overflow-hidden reveal-up" style="transition-delay: 100ms;">
+                <div class="w-full md:w-5/12 overflow-hidden bg-gray-100 aspect-video md:aspect-auto">
+                    <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=800" alt="Organisasi Mahasiswa" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700">
+                </div>
+                <div class="w-full md:w-7/12 p-8 md:p-12 flex flex-col justify-center">
+                    <div class="flex items-center gap-4 mb-4">
+                        <span class="bg-black text-white text-[10px] font-bold tracking-widest uppercase px-3 py-1">2022 - 2023</span>
+                        <span class="text-xs font-bold text-gray-400">HIMA Fisika UIN Jakarta</span>
+                    </div>
+                    <h3 class="text-2xl md:text-3xl font-bold mb-4 group-hover:text-gray-700 transition-colors">Staff Departemen Keilmuan</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-8">
+                        Berperan aktif dalam merancang dan mengeksekusi program kerja berbasis akademik. Mengorganisir kelompok belajar mahasiswa, mengatur seminar fisika modern, dan mempersiapkan kontingen lomba sains tingkat universitas.
+                    </p>
+                    <div class="mt-auto">
+                        <button onclick="openModal('modal-dokumentasi')" class="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-black border-b-2 border-transparent group-hover:border-black transition-all pb-1 active:scale-95 active:opacity-70 cursor-pointer">
+                            LIHAT DOKUMENTASI <i class="ph ph-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Experience Card 3 -->
+            <div class="group flex flex-col md:flex-row bg-white border border-gray-200 hover:border-black transition-all duration-500 overflow-hidden reveal-up" style="transition-delay: 200ms;">
+                <div class="w-full md:w-5/12 overflow-hidden bg-gray-100 aspect-video md:aspect-auto">
+                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=800" alt="Penelitian Mahasiswa" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700">
+                </div>
+                <div class="w-full md:w-7/12 p-8 md:p-12 flex flex-col justify-center">
+                    <div class="flex items-center gap-4 mb-4">
+                        <span class="bg-black text-white text-[10px] font-bold tracking-widest uppercase px-3 py-1">2023</span>
+                        <span class="text-xs font-bold text-gray-400">Pusat Penelitian</span>
+                    </div>
+                    <h3 class="text-2xl md:text-3xl font-bold mb-4 group-hover:text-gray-700 transition-colors">Tim Asisten Peneliti (Proyek Dosen)</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-8">
+                        Membantu pengumpulan dan pengolahan data untuk penelitian efisiensi material berbasis simulasi. Mengoperasikan perangkat কলিক lunak analisis komputasi dan menyusun draf awal untuk publikasi jurnal ilmiah.
+                    </p>
+                    <div class="mt-auto">
+                        <button onclick="openModal('modal-dokumentasi')" class="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-black border-b-2 border-transparent group-hover:border-black transition-all pb-1 active:scale-95 active:opacity-70 cursor-pointer">
+                            LIHAT DOKUMENTASI <i class="ph ph-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ======================= -->
+    <!-- AKHIR BAGIAN PENGALAMAN -->
+    <!-- ======================= -->
+
+    <!-- Modal Controllers & Scroll Animations -->
+    <script>
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.remove('hidden-modal');
+            requestAnimationFrame(() => {
+                modal.classList.add('active');
+            });
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.remove('active');
+            setTimeout(() => {
+                modal.classList.add('hidden-modal');
+                document.body.style.overflow = 'auto';
+            }, 400);
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                const modalId = event.target.id;
+                closeModal(modalId);
+            }
+        }
+
+        // Script Baru: Observer untuk animasi Scroll di section Pengalaman
+        document.addEventListener('DOMContentLoaded', () => {
+            const reveals = document.querySelectorAll('.reveal-up');
+            
+            const revealOptions = {
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, revealOptions);
+
+            reveals.forEach(reveal => {
+                revealOnScroll.observe(reveal);
+            });
+        });
+    </script>
+
+</body>
+</html>
