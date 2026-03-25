@@ -604,7 +604,6 @@
             });
         }
         let isChatOpen = false;
-        const apiKey = ""; 
         const systemPrompt = "Kamu adalah asisten AI untuk portofolio Aulia Nurkamilah. Aulia adalah mahasiswa Fisika UIN Syarif Hidayatullah Jakarta. Dia ahli di bidang analisis data fisika, eksperimen lab, dan simulasi komputasi. Jawablah dengan sopan, cerdas, dan profesional. Jika ditanya kontak, emailnya adalah aulianurkamilah080507@gmail.com dan nomor WhatsAppnya +6283891031318. hindari simbol #*";
         function toggleAIChat() {
             isChatOpen = !isChatOpen;
@@ -627,17 +626,19 @@
                 loadingMsg.remove(); addMessage(response, 'ai');
             } catch (error) { loadingMsg.innerText = "Maaf, sedang ada kendala koneksi."; }
         }
-        async function fetchWithRetry(query, retries = 5) {
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-            const payload = { contents: [{ parts: [{ text: query }] }], systemInstruction: { parts: [{ text: systemPrompt }] } };
-            for (let i = 0; i < retries; i++) {
-                try {
-                    const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                    const data = await res.json();
-                    return data.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, saya tidak bisa memproses permintaan Anda.";
-                } catch (e) { if (i === retries - 1) throw e; await new Promise(r => setTimeout(r, Math.pow(2, i) * 1000)); }
-            }
-        }
+     async function fetchWithRetry(query) {
+    const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message: query }),
+    });
+
+    const data = await res.json();
+
+    return data.reply || "AI tidak merespon";
+}
         function addMessage(text, sender) {
             const container = document.getElementById('chat-messages');
             const div = document.createElement('div');
