@@ -5,50 +5,39 @@ module.exports = async (req, res) => {
 
   try {
     const { message } = req.body;
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = process.env.GROQ_API_KEY;
 
-    // Pakai v1 (versi stabil) dan model gemini-1.5-flash
-    const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    if (!apiKey) {
+      return res.status(200).json({ reply: "Error: GROQ_API_KEY belum dipasang di Vercel!" });
+    }
 
-    const response = await fetch(url, {
+    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: {
+        "Authorization": `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        contents: [
+        model: "llama3-8b-8192", // Model gratisan yang sangat pintar & cepat
+        messages: [
           {
-            role: "user", // Tambahkan role agar Google tidak bingung
-            parts: [
-              {
-                text: message
-              }
-            ]
-          }
+            role: "user",
+            content: message,
+          },
         ],
-        generationConfig: {
-          temperature: 0.7,
-          topK: 40,
-          topP: 0.95,
-          maxOutputTokens: 1024,
-        }
-      })
+      }),
     });
 
     const data = await response.json();
 
     if (!response.ok) {
-      // Biar kamu bisa lihat error asli dari Google di chat
       return res.status(200).json({ 
-        reply: `Google Error (${response.status}): ${data.error?.message || "Cek API Key/Quota"}` 
+        reply: "Groq Error: " + (data.error?.message || "Cek kuota/key") 
       });
     }
 
-    const replyText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-    
-    return res.status(200).json({ 
-      reply: replyText || "Google kasih respon kosong." 
-    });
+    const botReply = data.choices?.[0]?.message?.content;
+    return res.status(200).json({ reply: botReply || "AI diam saja." });
 
   } catch (err) {
     return res.status(200).json({ reply: "Server Error: " + err.message });
