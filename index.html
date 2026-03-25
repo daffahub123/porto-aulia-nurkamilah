@@ -559,7 +559,7 @@
             <div class="p-6 bg-black text-white flex justify-between items-center">
                 <div class="flex items-center gap-3">
                     <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-500 to-blue-400 flex items-center justify-center animate-pulse"><i class="ph ph-sparkle text-sm"></i></div>
-                    <div><h4 class="text-sm font-bold">Aulia's AI Assistant</h4><span class="text-[10px] opacity-60">Powered by Gemini</span></div>
+                    <div><h4 class="text-sm font-bold">Aulia's AI Assistant</h4><span class="text-[10px] opacity-60">__________________</span></div>
                 </div>
                 <button onclick="toggleAIChat()" class="hover:rotate-90 transition-transform"><i class="ph ph-x text-xl"></i></button>
             </div>
@@ -628,7 +628,7 @@
             } catch (error) { loadingMsg.innerText = "Maaf, sedang ada kendala koneksi."; }
         }
         async function fetchWithRetry(query, retries = 5) {
-            const url = `/api/chat`;
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
             const payload = { contents: [{ parts: [{ text: query }] }], systemInstruction: { parts: [{ text: systemPrompt }] } };
             for (let i = 0; i < retries; i++) {
                 try {
