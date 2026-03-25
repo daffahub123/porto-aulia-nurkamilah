@@ -1,15 +1,16 @@
-// Gunakan module.exports supaya lebih kompatibel dengan Vercel
 module.exports = async (req, res) => {
-  // Pastikan cuma nerima POST
   if (req.method !== "POST") {
-    return res.status(405).json({ error: "Gunakan method POST, jangan GET." });
+    return res.status(200).json({ reply: "Sistem Error: Kamu pakai GET, harusnya POST!" });
   }
 
   try {
     const { message } = req.body;
     const apiKey = process.env.GEMINI_API_KEY;
 
-    // Pakai model 1.5-flash (lebih kencang & stabil)
+    if (!apiKey) {
+      return res.status(200).json({ reply: "Error: API Key belum dipasang di Vercel Env!" });
+    }
+
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
       {
@@ -24,17 +25,15 @@ module.exports = async (req, res) => {
     const data = await response.json();
 
     if (!response.ok) {
-      return res.status(response.status).json({ 
-        error: "Google API Error", 
-        detail: data 
+      return res.status(200).json({ 
+        reply: "Google API Ngambek: " + (data.error?.message || "Cek kuota/key") 
       });
     }
 
-    return res.status(200).json({
-      reply: data?.candidates?.[0]?.content?.parts?.[0]?.text || "No response"
-    });
+    const botReply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    return res.status(200).json({ reply: botReply || "Google kasih respon kosong." });
 
   } catch (err) {
-    return res.status(500).json({ error: err.toString() });
+    return res.status(200).json({ reply: "Server Error: " + err.message });
   }
 };
