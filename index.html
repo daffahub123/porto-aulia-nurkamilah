@@ -649,23 +649,32 @@
 
         async function askAI(pesanUser) {
     try {
-        const response = await fetch('/api/chat', { // Sesuaikan dengan route Vercel kamu
+        // 1. Panggil API ke Vercel
+        const response = await fetch('/api/chat', {
             method: 'POST',
-            headers: {'Content-Type': 'application/json',},
-            body: JSON.stringify({ message: pesanUser }),
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: pesanUser }), // Menggunakan parameter 'pesanUser'
         });
-        })
-.then(res => res.json())
-.then(data => {
-  console.log(data); // Cek di console log kalau masih error
-  appendMessage(data.reply); 
-})
+
+        // 2. Ambil hasilnya dalam bentuk JSON
         const data = await response.json();
-        
+
+        // 3. Cek apakah ada error dari server
         if (!response.ok) {
             console.error("Error Detail:", data);
+            appendMessage("ai", "Maaf, sistem sedang sibuk. Coba lagi ya!");
             return;
         }
+
+        // 4. Tampilkan jawaban AI ke chat (asumsi fungsi appendMessage sudah ada)
+        // Note: pastikan argumennya sesuai (biasanya: role, teks)
+        appendMessage("ai", data.reply || "AI tidak memberikan respon.");
+
+    } catch (error) {
+        console.error("Gagal koneksi ke API:", error);
+        appendMessage("ai", "Koneksi terputus, cek internet kamu.");
+    }
+}
 
         console.log("Jawaban Gemini:", data.reply);
     } catch (error) {
