@@ -639,48 +639,70 @@
 
     return data.reply || "AI tidak merespon";
 }
-        function addMessage(text, sender) {
-            const container = document.getElementById('chat-messages');
-            const div = document.createElement('div');
-            div.className = sender === 'user' ? 'bg-black text-white p-4 rounded-2xl rounded-tr-none ml-auto max-w-[85%] shadow-lg' : 'bg-white p-4 rounded-2xl rounded-tl-none border border-black/5 max-w-[85%] shadow-sm';
-            div.innerText = text; container.appendChild(div); container.scrollTop = container.scrollHeight;
-        }
-        document.getElementById('ai-input').addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); });
-
-        async function askAI(pesanUser) {
-    try {
-        // 1. Panggil API ke Vercel
-        const response = await fetch('/api/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: pesanUser }), // Menggunakan parameter 'pesanUser'
-        });
-
-        // 2. Ambil hasilnya dalam bentuk JSON
-        const data = await response.json();
-
-        // 3. Cek apakah ada error dari server
-        if (!response.ok) {
-            console.error("Error Detail:", data);
-            appendMessage("ai", "Maaf, sistem sedang sibuk. Coba lagi ya!");
-            return;
-        }
-
-        // 4. Tampilkan jawaban AI ke chat (asumsi fungsi appendMessage sudah ada)
-        // Note: pastikan argumennya sesuai (biasanya: role, teks)
-        appendMessage("ai", data.reply || "AI tidak memberikan respon.");
-
-    } catch (error) {
-        console.error("Gagal koneksi ke API:", error);
-        appendMessage("ai", "Koneksi terputus, cek internet kamu.");
+      function addMessage(text, sender) {
+        const container = document.getElementById('chat-messages');
+        const div = document.createElement('div');
+        
+        // Styling Tailwind
+        div.className = sender === 'user' 
+            ? 'bg-black text-white p-4 rounded-2xl rounded-tr-none ml-auto max-w-[85%] shadow-lg' 
+            : 'bg-white text-black p-4 rounded-2xl rounded-tl-none border border-black/5 max-w-[85%] shadow-sm';
+            
+        div.innerText = text; 
+        container.appendChild(div); 
+        container.scrollTop = container.scrollHeight; // Biar auto-scroll ke bawah
     }
-}
 
-        console.log("Jawaban Gemini:", data.reply);
-    } catch (error) {
-        console.error("Gagal konek ke backend:", error);
+    // 2. Fungsi untuk mengambil input, mencetak pesan user, dan memanggil AI
+    async function sendMessage() {
+        const inputElement = document.getElementById('ai-input');
+        const pesanUser = inputElement.value.trim();
+
+        if (!pesanUser) return; // Kalau kosong, jangan kirim apa-apa
+
+        // Tampilkan pesan user ke layar (urutan: teks, sender)
+        addMessage(pesanUser, 'user');
+        
+        // Kosongkan kotak ketik
+        inputElement.value = '';
+
+        // Tembak API-nya
+        await askAI(pesanUser);
     }
-}
-    </script>
+
+    // 3. Deteksi kalau tombol Enter ditekan
+    document.getElementById('ai-input').addEventListener('keypress', (e) => { 
+        if (e.key === 'Enter') {
+            sendMessage(); 
+        }
+    });
+
+    // 4. Fungsi utama nembak API Vercel
+    async function askAI(pesanUser) {
+        try {
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: pesanUser }), 
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                console.error("Error Detail:", data);
+                addMessage("Maaf, sistem sedang sibuk. Coba lagi ya!", "ai");
+                return;
+            }
+
+            // Tampilkan jawaban Gemini ke layar
+            addMessage(data.reply || "AI tidak memberikan respon.", "ai");
+            console.log("Jawaban Gemini sukses diterima.");
+
+        } catch (error) {
+            console.error("Gagal koneksi ke API:", error);
+            addMessage("Koneksi terputus, cek internet kamu.", "ai");
+        }
+    }
+</script>
 </body>
 </html>
