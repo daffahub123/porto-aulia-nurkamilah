@@ -649,14 +649,17 @@
 
         async function askAI(pesanUser) {
     try {
-        const response = await fetch("/api/chat", { // Sesuaikan dengan route Vercel kamu
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
+        const response = await fetch('/api/chat', { // Sesuaikan dengan route Vercel kamu
+            method: 'POST',
+            headers: {'Content-Type': 'application/json',},
             body: JSON.stringify({ message: pesanUser }),
         });
-
+        })
+.then(res => res.json())
+.then(data => {
+  console.log(data); // Cek di console log kalau masih error
+  appendMessage(data.reply); 
+})
         const data = await response.json();
         
         if (!response.ok) {
