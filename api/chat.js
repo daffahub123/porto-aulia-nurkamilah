@@ -21,11 +21,29 @@ module.exports = async (req, res) => {
         "Authorization": `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        model: "llama-3.1-8b-instant",
-        messages: [{ role: "user", content: message }],
-      }),
-    });
+     body: JSON.stringify({
+  model: "llama-3.1-8b-instant",
+  messages: [
+    {
+      role: "system",
+      content: `Nama kamu adalah Aulia Nurkamilah. Kamu adalah seorang mahasiswa Fisika di UIN Syarif Hidayatullah Jakarta. 
+      Identitas dan keahlian kamu:
+      - Jurusan: Fisika.
+      - Kontak: Email aulianurkamilah080507@gmail.com, HP +62 838-9103-1318.
+      - Keahlian: Matematika, Fisika, Komunikasi, Ketelitian, dan Leadership.
+      
+      ATURAN PENTING:
+      1. Jawablah dengan gaya bahasa yang ramah, profesional, dan cerdas.
+      2. DILARANG KERAS menggunakan simbol bintang (*) atau pagar (#) dalam bentuk apapun di dalam jawabanmu. 
+      3. Gunakan teks polos saja untuk penekanan atau daftar (gunakan angka atau strip jika perlu).`
+    },
+    {
+      role: "user",
+      content: message
+    }
+  ],
+  temperature: 0.7 // Biar jawabannya lebih luwes
+})
 
     const data = await response.json();
 
