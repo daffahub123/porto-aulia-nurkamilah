@@ -604,28 +604,7 @@
             });
         }
         let isChatOpen = false;
-        let isChatOpen = false;
-
-async function fetchWithRetry(query) {
-    const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ message: query }),
-    });
-
-    const data = await res.json();
-
-    return data.reply || "Tidak ada respon dari AI";
-}
-
-function toggleAIChat() {
-    isChatOpen = !isChatOpen;
-    const windowEl = document.getElementById('ai-chat-window');
-    if (isChatOpen) windowEl.classList.add('active');
-    else windowEl.classList.remove('active');
-}
+        const apiKey = ""; 
         const systemPrompt = "Kamu adalah asisten AI untuk portofolio Aulia Nurkamilah. Aulia adalah mahasiswa Fisika UIN Syarif Hidayatullah Jakarta. Dia ahli di bidang analisis data fisika, eksperimen lab, dan simulasi komputasi. Jawablah dengan sopan, cerdas, dan profesional. Jika ditanya kontak, emailnya adalah aulianurkamilah080507@gmail.com dan nomor WhatsAppnya +6283891031318. hindari simbol #*";
         function toggleAIChat() {
             isChatOpen = !isChatOpen;
