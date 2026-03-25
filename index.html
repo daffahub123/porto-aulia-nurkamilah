@@ -628,7 +628,7 @@
             } catch (error) { loadingMsg.innerText = "Maaf, sedang ada kendala koneksi."; }
         }
         async function fetchWithRetry(query, retries = 5) {
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const url = `/api/chat`;
             const payload = { contents: [{ parts: [{ text: query }] }], systemInstruction: { parts: [{ text: systemPrompt }] } };
             for (let i = 0; i < retries; i++) {
                 try {
