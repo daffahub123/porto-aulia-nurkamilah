@@ -646,6 +646,29 @@
             div.innerText = text; container.appendChild(div); container.scrollTop = container.scrollHeight;
         }
         document.getElementById('ai-input').addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); });
+
+        async function askAI(pesanUser) {
+    try {
+        const response = await fetch("/api/chat", { // Sesuaikan dengan route Vercel kamu
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ message: pesanUser }),
+        });
+
+        const data = await response.json();
+        
+        if (!response.ok) {
+            console.error("Error Detail:", data);
+            return;
+        }
+
+        console.log("Jawaban Gemini:", data.reply);
+    } catch (error) {
+        console.error("Gagal konek ke backend:", error);
+    }
+}
     </script>
 </body>
 </html>
