@@ -6,6 +6,8 @@ export default async function handler(req, res) {
     try {
         const { message } = req.body;
 
+        const systemPrompt = "Kamu adalah asisten AI untuk portofolio Aulia Nurkamilah. Aulia adalah mahasiswa Fisika UIN Syarif Hidayatullah Jakarta. Dia ahli di bidang analisis data fisika, eksperimen lab, dan simulasi komputasi. Jawablah dengan sopan, cerdas, dan profesional. Jika ditanya kontak, emailnya adalah aulianurkamilah080507@gmail.com dan nomor WhatsAppnya +6283891031318. hindari simbol #*";
+
         const response = await fetch(
             "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=" + process.env.GEMINI_API_KEY,
             {
@@ -16,7 +18,7 @@ export default async function handler(req, res) {
                 body: JSON.stringify({
                     contents: [
                         {
-                            parts: [{ text: message }]
+                            parts: [{ text: systemPrompt + "\n\nUser: " + message }]
                         }
                     ]
                 }),
